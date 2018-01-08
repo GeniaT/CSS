@@ -1,0 +1,89 @@
+#introduction {
+  background: -webkit-gradient(linear, left top, left bottom, from(rgba(100,181,246 ,1)), to(rgba(0,0,0,0.8))),url('http://bit.ly/2fBj6OJ') 0% 0%/cover;
+  background: -webkit-linear-gradient(rgba(100,181,246 ,1), rgba(0,0,0,0.8)),url('http://bit.ly/2fBj6OJ') 0% 0%/cover;
+  background: -o-linear-gradient(rgba(100,181,246 ,1), rgba(0,0,0,0.8)),url('http://bit.ly/2fBj6OJ') 0% 0%/cover;
+  background: linear-gradient(rgba(100,181,246 ,1), rgba(0,0,0,0.8)),url('http://bit.ly/2fBj6OJ') 0% 0%/cover 
+}
+
+#info-3 {
+  background-image: url('http://moneyhighstreet.com/wp/wp-content/uploads/2017/09/older-lady-sitting-bench.jpeg');
+  background-size: cover;
+}
+
+.fill-viewport {
+  min-height: 100vh 
+}
+
+.fill-80-viewport {
+  min-height: 80vh
+}
+
+.text-white-70 {
+  color: rgba(255,255,255,0.7)
+}
+.text-black-70 {
+   color: rgba(0,0,0,0.7) 
+} 
+.text-black-40 {
+   color: rgba(0,0,0,0.4) 
+}
+
+@media screen and (min-width: 768px ){
+  .basis-md-50 {
+    -ms-flex-preferred-size: 50%;
+        flex-basis: 50%
+  }  
+}
+
+.list-border-y li {
+  border-top: 1px solid
+}
+.list-border-y li:last-child {
+  border-bottom: 1px solid
+}
+.list-border-black-20 li,
+.list-border-black-20 li:last-child{
+  border-color: rgba(0,0,0,0.2)
+}
+  background: linear-gradient(rgba(100,181,246 ,1), rgba(0,0,0,0.8)),url('http://bit.ly/2fBj6OJ') 0% 0%/cover 
+}
+
+#info-3 {
+  background-image: url('http://moneyhighstreet.com/wp/wp-content/uploads/2017/09/older-lady-sitting-bench.jpeg');
+  background-size: cover;
+}
+
+.fill-viewport {
+  min-height: 100vh 
+}
+
+.fill-80-viewport {
+  min-height: 80vh
+}
+
+.text-white-70 {
+  color: rgba(255,255,255,0.7)
+}
+.text-black-70 {
+   color: rgba(0,0,0,0.7) 
+} 
+.text-black-40 {
+   color: rgba(0,0,0,0.4) 
+}
+
+@media screen and (min-width: 768px ){
+  .basis-md-50 {
+    flex-basis: 50%
+  }  
+}
+
+.list-border-y li {
+  border-top: 1px solid
+}
+.list-border-y li:last-child {
+  border-bottom: 1px solid
+}
+.list-border-black-20 li,
+.list-border-black-20 li:last-child{
+  border-color: rgba(0,0,0,0.2)
+}
