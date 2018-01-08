@@ -13,12 +13,12 @@ the col size doesn't have to be defined.
 
 :six: use of vh unit is usefull when you want to control how the user sees your content on a certain viewport. ex: .class {min-height: 80vh} //at least 80% of the viewport
 
-:seven: use of "<pre>" tag is usually used for computer code but can be used for something else aswell. The spaces and line breaks in this tag are preserved.
+:seven: use of < pre > tag is usually used for computer code but can be used for something else aswell. The spaces and line breaks in this tag are preserved.
 
 :eight: boostrap 4 is built on top of previous versions code, which means your apps won't break if you upgrade to boostrap 4. 
 
 :nine: This build is great when you practiced already without bootstrap and can see how easily can some tricky things be done when playing with responsiveness.
 
-:ten: The amount of custom css is minimal for such a great looking layout, therefore the maintenance is reduced aswell.
+:one: :zero: The amount of custom css is minimal for such a great looking layout, therefore the maintenance is reduced aswell.
 
 
