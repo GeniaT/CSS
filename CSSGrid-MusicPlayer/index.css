@@ -1,0 +1,181 @@
+body {
+  display: grid;
+  min-height: 100vh;
+  min-width: 100%;
+  grid-template-rows: 1fr 90px;
+  grid-template-columns: 1fr;
+  grid-template-areas: "content"
+                        "footer";
+  font-family: Verdana, Geneva, Arial, Helvetica, sans-sherif;
+}
+/*naming divs before defining their names in grid template areas property*/
+main {
+  grid-area: content;
+  background-color:#73c8dd;
+}
+footer {
+  grid-area: footer;
+  background-color:#7ca4ea;
+  display:-webkit-box;
+  display:-ms-flexbox;
+  display:flex;
+}
+.flexLeft {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 50%;
+  text-align:left;
+  color: white;
+}
+.footText {
+  padding-left:15px;
+}
+
+.flexRight {
+  display:-webkit-box;
+  display:-ms-flexbox;
+  display:flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  color: white;
+  width:50%;
+}
+.aside {
+  grid-area: sidebar;
+  background-color:#dbd4d4;
+}
+
+.aside i {
+  display: none;
+}
+ img {
+  max-width: 100%;
+}
+.main__header {
+  display: grid;
+  color: rgba(255,255,255,0.9);
+  grid-template-areas: "img"
+                       "dtls"; 
+  background-color: #909da0;
+}
+
+.main__header > .img {
+  grid-area: img;
+}
+.main__header > .details {
+  grid-area: dtls;
+  padding-left: 15px;
+} 
+
+.main__body > div {
+  display:-webkit-box;
+  display:-ms-flexbox;
+  display:flex;
+}
+.main__body > div p{
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 25%;
+          flex: 0 0 25%;
+  padding-left: 15px;
+}
+/* large screens */
+@media only screen and (min-width: 600px) {
+  body {
+    grid-template-columns: 40px 1fr;
+    grid-template-areas: "sidebar  content"
+                         "footer   footer";
+  }
+  .aside {
+    display:grid;
+     justify-items: center;
+     -webkit-box-align: center;
+         -ms-flex-align: center;
+             align-items: center;
+  }
+  .aside i {
+    display: block;
+  }
+.main__header {
+    grid-template-columns: 250px 1fr;
+    grid-template-areas: "img dtls"
+  } 
+  .downOnlg {
+    padding-top:6em;
+  }
+  #imgFooter {
+    width:89px;
+  }
+}
+
+/* ===============
+Mobile: Phones
+==================*/
+@media screen and (max-width: 600px) {
+  .sm--hide {
+    display: none;
+  } 
+  .main__header {
+    justify-items: center;
+  }
+  .main__header > .details {
+    text-align: center;
+  }  
+  .img > img {
+    width: 150px
+  }
+  .main__body > div p{
+    -webkit-box-flex: 0;
+        -ms-flex: 0 0 50%;
+            flex: 0 0 50%;
+  }
+  .timerRight {
+    text-align:center;
+  }
+  
+}
+  background: linear-gradient(rgba(100,181,246 ,1), rgba(0,0,0,0.8)),url('http://bit.ly/2fBj6OJ') 0% 0%/cover 
+}
+
+#info-3 {
+  background-image: url('http://moneyhighstreet.com/wp/wp-content/uploads/2017/09/older-lady-sitting-bench.jpeg');
+  background-size: cover;
+}
+
+.fill-viewport {
+  min-height: 100vh 
+}
+
+.fill-80-viewport {
+  min-height: 80vh
+}
+
+.text-white-70 {
+  color: rgba(255,255,255,0.7)
+}
+.text-black-70 {
+   color: rgba(0,0,0,0.7) 
+} 
+.text-black-40 {
+   color: rgba(0,0,0,0.4) 
+}
+
+@media screen and (min-width: 768px ){
+  .basis-md-50 {
+    flex-basis: 50%
+  }  
+}
+
+.list-border-y li {
+  border-top: 1px solid
+}
+.list-border-y li:last-child {
+  border-bottom: 1px solid
+}
+.list-border-black-20 li,
+.list-border-black-20 li:last-child{
+  border-color: rgba(0,0,0,0.2)
+}
