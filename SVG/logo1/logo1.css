@@ -2,3 +2,7 @@ body, html {
   text-align: center;
   background: #d55657;
 }
+
+img {
+  margin-top: -100px;
+}
