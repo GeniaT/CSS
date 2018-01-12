@@ -1,0 +1,14 @@
+body {
+  background-color: #a0efcd;
+}
+h1 {
+  text-align: center;
+}
+
+canvas {
+  border: 1px solid blue;
+  display: block;
+  margin-top: 150px;
+  margin-left: auto;
+  margin-right: auto;
+}
