@@ -1,3 +1,5 @@
+// tetris infos https://fr.wikipedia.org/wiki/Tetris
+
 // Initial Setup
 const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
@@ -6,7 +8,12 @@ const c = canvas.getContext('2d')
 canvas.width = 200; //smallest square = 20 x 20
 canvas.height = 440;
 let keyCode;
-let currentBloc = [];
+let currentBloc = []; //created to for clear
+let currentLocation = [60,0];
+let currentRotation = 0;
+//different forms definition
+// let o = new Bloc(currentLocation[0], currentLocation[1], 40, 40);
+let i = [[currentLocation[0], currentLocation[1], 80, 20], [currentLocation[0], currentLocation[1], 20, 80]];
 
 //forms definition
 function Bloc(x, y, width, height) {
@@ -14,7 +21,7 @@ function Bloc(x, y, width, height) {
   this.y = y;
   this.width = width;
   this.height = height;
-  //Make the params from the current form available in outter scope
+  //Make the params from the current form available in outter scope for clear
   currentBloc[0] = this.x;
   currentBloc[1] = this.y;
   currentBloc[2] = this.width;
@@ -23,19 +30,7 @@ function Bloc(x, y, width, height) {
     c.fillStyle = 'rgba(255,0,0,0.5)';
     c.fillRect(this.x, this.y, this.width, this.height);
   }
-  this.update = function(keyCode) {
-    // c.clearRect(0,0, 200, 440);
-    // if (keyCode === 37) {
-    //   this.x = this.x - 20;
-    // } else if (keyCode === 39) {
-    //   this.x = this.x - 20;
-    // } else if (keyCode === 40) {
-    //   this.y = this.y + 20;
-    // }
-    // new Bloc(this.x, this.y, 40, 40);
-    //
-    // this.draw();
-  }
+
   this.draw();
 }
 
@@ -59,48 +54,65 @@ function Long (x, y, width, height) {
 
 //events
 document.onkeydown = function(e) {
-    keyCode = e.keyCode;
-    switch (e.keyCode) {
-        case 37:
-            console.log('left');
-            if (currentBloc[0] >= 20) {
-              c.clearRect(currentBloc[0],currentBloc[1],currentBloc[2],currentBloc[3]);
-              currentBloc[0] -= 20;
-              new Bloc(currentBloc[0],currentBloc[1],currentBloc[2],currentBloc[3])
-            }
-            break;
-        case 38:
-            console.log('up');
-            c.clearRect(currentBloc[0],currentBloc[1],currentBloc[2],currentBloc[3]);
-        case 39:
-            console.log('right');
-            if (currentBloc[0] + currentBloc[2] <= 180) {
-              c.clearRect(currentBloc[0],currentBloc[1],currentBloc[2],currentBloc[3]);
-              currentBloc[0] += 20;
-              new Bloc(currentBloc[0],currentBloc[1],currentBloc[2],currentBloc[3])
-            }
-            break;
-        case 40:
-            console.log('down');
-            if (currentBloc[1] + currentBloc[3] <= 420) {
-              c.clearRect(currentBloc[0],currentBloc[1],currentBloc[2],currentBloc[3]);
-              currentBloc[1] += 20;
-              new Bloc(currentBloc[0],currentBloc[1],currentBloc[2],currentBloc[3])
-            }
-            break;
+  i = [[currentLocation[0], currentLocation[1], 80, 20], [currentLocation[0], currentLocation[1], 20, 80]];
+  i[currentRotation] = [currentLocation[0], currentLocation[1], 80, 20];
+
+  function createForm() {
+    new Long(currentBloc[0],currentBloc[1],currentBloc[2],currentBloc[3]);
+  }
+  function clear() {
+    c.clearRect(currentBloc[0],currentBloc[1],currentBloc[2],currentBloc[3]);
+  }
+  keyCode = e.keyCode;
+  switch (e.keyCode) {
+      case 37:
+          console.log('left');
+          if (currentBloc[0] >= 20) {
+            clear();
+            currentBloc[0] -= 20;
+            createForm();
+            currentLocation = [currentLocation[0] - 20,currentLocation[1]];
+          }
+          break;
+      case 38:
+          console.log('up');
+          clear();
+          if (currentRotation === 0) {currentRotation++} else {currentRotation--}
+          new Long(i[currentRotation][0],i[currentRotation][1],i[currentRotation][2],i[currentRotation][3]);
+          break;
+      case 39:
+          console.log('right');
+          if (currentBloc[0] + currentBloc[2] <= 180) {
+            clear();
+            currentBloc[0] += 20;
+            createForm();
+            currentLocation = [currentLocation[0] + 20,currentLocation[1]];
+          }
+          break;
+      case 40:
+          console.log('down');
+          if (currentBloc[1] + currentBloc[3] <= 420) {
+            clear();
+            currentBloc[1] += 20;
+            createForm();
+            currentLocation = [currentLocation[0],currentLocation[1] + 20]; //update of var for next move
+          }
+          break;
     }
-    console.log('keycode now:', keyCode);
 };
 
 
 function init() {
+  //trigger a random figure & random rotation
   // new Bloc(80,0,40,40);
-  new Long(60,0,80,20);
-  console.log('currentBloc :' , currentBloc);
+  new Long(i[currentRotation][0],i[currentRotation][1],i[currentRotation][2],i[currentRotation][3]);
+
 }
 function animate() {
   requestAnimationFrame(animate);
   if (currentBloc[1] + currentBloc[3] === 440) {
+    currentLocation = [60,0]; //current loc reset
+    // If we touch the bottom, generate new figure
     new Long(60,0,80,20);
   }
 }
