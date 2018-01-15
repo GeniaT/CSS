@@ -1,6 +1,5 @@
 // tetris infos https://fr.wikipedia.org/wiki/Tetris
 // to do:
-// create the falling effect of the form 20 y per sec for ex.
 // check if x after rotation is < or > the limits, if yet - stop rotation
 // create other forms functions
 // define impact logics
@@ -101,19 +100,6 @@ document.onkeydown = function(e) {
   i = [[currentLocation[0], currentLocation[1], 80, 20], [currentLocation[0], currentLocation[1], 20, 80]];
   i[currentRotation] = [currentLocation[0], currentLocation[1], 80, 20];
 
-  // function moveForm() { //move by recreation on other position
-  //   switch (randomNr) {
-  //     case 0:
-  //       new Bloc(currentBloc[0],currentBloc[1], 40, 40);
-  //       break;
-  //     case 1:
-  //       new Long(currentBloc[0],currentBloc[1],currentBloc[2],currentBloc[3]);
-  //       break;
-  //   }
-  // }
-  // function clear() {
-  //   c.clearRect(currentBloc[0],currentBloc[1],currentBloc[2],currentBloc[3]);
-  // }
   switch (e.keyCode) {
       case 37:
           console.log('left');
@@ -173,7 +159,7 @@ function init() {
 }
 function animate() {
   requestAnimationFrame(animate);
-  if (currentBloc[1] + currentBloc[3] === 440) {
+  if (currentBloc[1] + currentBloc[3] >= 440) {
     currentLocation = [60,0]; //current loc reset
     // If we touch the bottom, generate new figure
     randomFormCreate();
