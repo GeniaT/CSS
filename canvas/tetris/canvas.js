@@ -1,5 +1,9 @@
 // tetris infos https://fr.wikipedia.org/wiki/Tetris
-
+// to do:
+// create the falling effect of the form 20 y per sec for ex.
+// check if x after rotation is < or > the limits, if yet - stop rotation
+// create other forms functions
+// define impact logics
 // Initial Setup
 const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
@@ -12,9 +16,10 @@ let currentBloc = []; //created to for clear
 let currentLocation = [60,0];
 let currentRotation = 0;
 //different forms definition
-// let o = new Bloc(currentLocation[0], currentLocation[1], 40, 40);
+let o = [currentLocation[0], currentLocation[1], 40, 40];
 let i = [[currentLocation[0], currentLocation[1], 80, 20], [currentLocation[0], currentLocation[1], 20, 80]];
-
+let allForms = [o, i];
+let randomNr;
 //forms definition
 function Bloc(x, y, width, height) {
   this.x = x;
@@ -52,40 +57,101 @@ function Long (x, y, width, height) {
   this.draw();
 }
 
+function randomFormCreate() { //to run only on init or new form, not at move or rotations
+  randomNr = Math.floor(Math.random() * allForms.length);
+  console.log(randomNr);
+
+  switch (randomNr) {
+    case 0:
+      new Bloc(60, 0, 40, 40);
+      break;
+    case 1:
+      new Long(60, 0, 80, 20);
+      break;
+    // case 2:
+    // case 3:
+    // case 4:
+    // case 5:
+    // case 6:
+  }
+}
+function moveForm() { //move by recreation on other position
+  switch (randomNr) {
+    case 0:
+      new Bloc(currentBloc[0],currentBloc[1], 40, 40);
+      break;
+    case 1:
+      new Long(currentBloc[0],currentBloc[1],currentBloc[2],currentBloc[3]);
+      break;
+  }
+}
+function clear() {
+  c.clearRect(currentBloc[0],currentBloc[1],currentBloc[2],currentBloc[3]);
+}
+function formFalls() {
+    setInterval(function(){
+      clear();
+      currentBloc[1] += 20;
+      moveForm();
+      currentLocation = [currentLocation[0],currentLocation[1] + 20];
+    }, 1000);
+}
 //events
 document.onkeydown = function(e) {
   i = [[currentLocation[0], currentLocation[1], 80, 20], [currentLocation[0], currentLocation[1], 20, 80]];
   i[currentRotation] = [currentLocation[0], currentLocation[1], 80, 20];
 
-  function createForm() {
-    new Long(currentBloc[0],currentBloc[1],currentBloc[2],currentBloc[3]);
-  }
-  function clear() {
-    c.clearRect(currentBloc[0],currentBloc[1],currentBloc[2],currentBloc[3]);
-  }
-  keyCode = e.keyCode;
+  // function moveForm() { //move by recreation on other position
+  //   switch (randomNr) {
+  //     case 0:
+  //       new Bloc(currentBloc[0],currentBloc[1], 40, 40);
+  //       break;
+  //     case 1:
+  //       new Long(currentBloc[0],currentBloc[1],currentBloc[2],currentBloc[3]);
+  //       break;
+  //   }
+  // }
+  // function clear() {
+  //   c.clearRect(currentBloc[0],currentBloc[1],currentBloc[2],currentBloc[3]);
+  // }
   switch (e.keyCode) {
       case 37:
           console.log('left');
           if (currentBloc[0] >= 20) {
             clear();
             currentBloc[0] -= 20;
-            createForm();
+            moveForm();
             currentLocation = [currentLocation[0] - 20,currentLocation[1]];
           }
           break;
       case 38:
           console.log('up');
-          clear();
-          if (currentRotation === 0) {currentRotation++} else {currentRotation--}
-          new Long(i[currentRotation][0],i[currentRotation][1],i[currentRotation][2],i[currentRotation][3]);
+
+          if (currentRotation < allForms[randomNr].length - 1) {currentRotation++} else {currentRotation = 0}
+
+          switch (randomNr) {
+            case 1:
+              clear();
+              new Long(i[currentRotation][0],i[currentRotation][1],i[currentRotation][2],i[currentRotation][3]);
+              break;
+            case 2:
+              break;
+            case 3:
+              break;
+            case 4:
+              break;
+            case 5:
+              break;
+            case 6:
+              break;
+          }
           break;
       case 39:
           console.log('right');
           if (currentBloc[0] + currentBloc[2] <= 180) {
             clear();
             currentBloc[0] += 20;
-            createForm();
+            moveForm();
             currentLocation = [currentLocation[0] + 20,currentLocation[1]];
           }
           break;
@@ -94,7 +160,7 @@ document.onkeydown = function(e) {
           if (currentBloc[1] + currentBloc[3] <= 420) {
             clear();
             currentBloc[1] += 20;
-            createForm();
+            moveForm();
             currentLocation = [currentLocation[0],currentLocation[1] + 20]; //update of var for next move
           }
           break;
@@ -103,19 +169,17 @@ document.onkeydown = function(e) {
 
 
 function init() {
-  //trigger a random figure & random rotation
-  // new Bloc(80,0,40,40);
-  new Long(i[currentRotation][0],i[currentRotation][1],i[currentRotation][2],i[currentRotation][3]);
-
+  randomFormCreate();
 }
 function animate() {
   requestAnimationFrame(animate);
   if (currentBloc[1] + currentBloc[3] === 440) {
     currentLocation = [60,0]; //current loc reset
     // If we touch the bottom, generate new figure
-    new Long(60,0,80,20);
+    randomFormCreate();
   }
 }
 
 init()
 animate()
+formFalls()
