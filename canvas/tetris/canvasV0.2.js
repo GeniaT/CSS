@@ -1,9 +1,11 @@
 const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
-
+const droppedForms = document.querySelector('#droppedForms')
+const d = droppedForms.getContext('2d')
 canvas.width = 200;
 canvas.height = 440;
-
+droppedForms.width = 200;
+droppedForms.height = 440;
 // Event Listeners
 document.onkeydown = function(e) {
   switch (e.keyCode) {
@@ -37,6 +39,7 @@ function formFalls() {
         currentForm.y = currentForm.y + 20;
       } else {
         clearInterval(interval);
+        //add the form to canvas 2... to continue.
         init()
       }
     }, 1000);
@@ -60,6 +63,7 @@ function Form(x, y, width, height) {
 // Implementation
 let currentForm
 function init() {
+  //Starting point. Next, need to randomize different forms creation.
   currentForm = new Form(60, 0, 40, 40);
   formFalls();
 }
