@@ -1,5 +1,8 @@
 // tetris infos https://fr.wikipedia.org/wiki/Tetris
 // to do:
+// Create an Form function with all 7 fonctions for each form in it.
+// create an update function in Form function and when pushing each key (up,down,left,right),
+//      run the update function in animate after having modified variables.
 // check if x after rotation is < or > the limits, if yet - stop rotation
 // create other forms functions
 // define impact logics
