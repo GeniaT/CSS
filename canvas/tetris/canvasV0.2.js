@@ -40,6 +40,7 @@ function formFalls() {
       } else {
         clearInterval(interval);
         //add the form to canvas 2... to continue.
+        currentForm.addFormToCanvas2();
         init()
       }
     }, 1000);
@@ -57,6 +58,10 @@ function Form(x, y, width, height) {
     this.draw = function() {
       c.fillStyle = 'rgba(255,0,0,0.5)';
       c.fillRect(this.x, this.y, this.width, this.height);
+    }
+    this.addFormToCanvas2 = function() {
+      d.fillStyle = 'rgba(255,0,0,0.5)';
+      d.fillRect(this.x, this.y, this.width, this.height);
     }
 }
 
