@@ -48,26 +48,24 @@ document.onkeydown = function(e) {
           if (currentForm.x + currentForm.width <= 180) {
             currentForm.x = currentForm.x + 20;
           }
+          // if (currentForm.x + currentForm.width <= 180)
           break;
       case 40:
           console.log('down');
-          if (currentForm.y + currentForm.height <= 420
-            && droppedFormsGrid[(currentForm.y+40)/20][currentForm.x/20] !== undefined
-            && droppedFormsGrid[(currentForm.y+40)/20][currentForm.x/20] === 0
-            && droppedFormsGrid[(currentForm.y+40)/20][(currentForm.x+20)/20] === 0) {
+          if (currentForm.checkCollision()) {
               currentForm.y = currentForm.y + 20;
+            } else {
+              clearInterval(interval);
+              currentForm.addFormToCanvas2();
+              init()
             }
-            console.log(droppedFormsGrid);
           break;
     }
 }
-
+let interval;
 function formFalls() {
-    let interval = setInterval(function() {
-    if (currentForm.y + currentForm.height <= 420
-      && droppedFormsGrid[(currentForm.y+40)/20][currentForm.x/20] !== undefined
-      && droppedFormsGrid[(currentForm.y+40)/20][currentForm.x/20] === 0
-      && droppedFormsGrid[(currentForm.y+40)/20][(currentForm.x+20)/20] === 0) {
+    interval = setInterval(function() {
+    if (currentForm.checkCollision()) {
         currentForm.y = currentForm.y + 20;
     } else {
       clearInterval(interval);
@@ -78,6 +76,7 @@ function formFalls() {
 }
 
 function rerenderCanvas2() {
+  d.clearRect(0, 0, canvas.width, canvas.height);
   for (let row = 0; row < 22; row ++) {
     for (let col = 0; col < 10; col++) {
       if (droppedFormsGrid[row][col] === 1) {
@@ -102,7 +101,6 @@ function Form(x, y, width, height) {
       c.fillRect(this.x, this.y, this.width, this.height);
     }
     this.checkCollision = function () {
-            console.log("inside collision");
       let rotatedForm = "O";
       //array of locations of each "mini square" forming the whole form in canvas2 Grid
       switch(rotatedForm) {
@@ -114,13 +112,12 @@ function Form(x, y, width, height) {
           //   droppedFormsGrid[(this.y+20)/20][this.x/20],
           //   droppedFormsGrid[(this.y+20)/20][(this.x+20)/20],
           // ];
-          if (droppedFormsGrid[(this.y+40)/20][this.x/20] !== undefined
+          if (currentForm.y + currentForm.height <= 420
+            && droppedFormsGrid[(this.y+40)/20][this.x/20] !== undefined
             && droppedFormsGrid[(this.y+40)/20][this.x/20] === 0
             && droppedFormsGrid[(this.y+40)/20][(this.x+20)/20] === 0) {
               return true; //no collision, keep falling
             } else {
-              currentForm.addFormToCanvas2();
-              console.log(droppedFormsGrid);
               return false;
             }
           break;
@@ -147,8 +144,6 @@ function Form(x, y, width, height) {
     }
     this.addFormToCanvas2 = function() {
       let rotatedForm = "O";
-      d.fillStyle = 'rgba(255,0,0,0.5)';
-      d.fillRect(this.x, this.y, this.width, this.height);
       switch(rotatedForm) {
         case "O" :
           droppedFormsGrid[this.y/20][this.x/20] = 1
@@ -171,14 +166,14 @@ function Form(x, y, width, height) {
         // Complete with each form&rotation combination like L3,T2,B1,...
       }
       //check for full lines in canvas2: if full lines, remove this from droppedFormsGrid
-      //and upshift the removed elements on top of the grid
-      droppedFormsGrid.forEach((row) => {
+      //and upshift the clean lines on top of the grid
+      droppedFormsGrid.forEach((row, index) => {
         if (row.indexOf(0) === -1) { //if full line
-          //slice or splice the droppedFormsgrid and upshift [0,0,0,0,0,0,0,0,0,0] in the beginning
-          return; //to complete when grid updated properly.
+          droppedFormsGrid.splice(index, 1);
+          droppedFormsGrid.unshift([0,0,0,0,0,0,0,0,0,0]);
+          return;
         }
       });
-      //rerender the canvas according to "1"s in the grid
       rerenderCanvas2();
     }
 }
