@@ -36,8 +36,8 @@ document.onkeydown = function(e) {
   switch (e.keyCode) {
       case 37:
           console.log('left');
-          if (currentForm.x >= 20) {
-            currentForm.x = currentForm.x - 20;
+          if (currentForm.checkLeftCollision()) {
+            currentForm.x -= 20;
           }
           break;
       case 38:
@@ -45,15 +45,14 @@ document.onkeydown = function(e) {
           break;
       case 39:
           console.log('right');
-          if (currentForm.x + currentForm.width <= 180) {
-            currentForm.x = currentForm.x + 20;
+          if (currentForm.checkRightCollision()) {
+            currentForm.x += 20;
           }
-          // if (currentForm.x + currentForm.width <= 180)
           break;
       case 40:
           console.log('down');
-          if (currentForm.checkCollision()) {
-              currentForm.y = currentForm.y + 20;
+          if (currentForm.checkBottomCollision()) {
+              currentForm.y += 20;
             } else {
               clearInterval(interval);
               currentForm.addFormToCanvas2();
@@ -65,8 +64,8 @@ document.onkeydown = function(e) {
 let interval;
 function formFalls() {
     interval = setInterval(function() {
-    if (currentForm.checkCollision()) {
-        currentForm.y = currentForm.y + 20;
+    if (currentForm.checkBottomCollision()) {
+        currentForm.y += 20;
     } else {
       clearInterval(interval);
       currentForm.addFormToCanvas2();
@@ -100,20 +99,79 @@ function Form(x, y, width, height) {
       c.fillStyle = 'rgba(255,0,0,0.5)';
       c.fillRect(this.x, this.y, this.width, this.height);
     }
-    this.checkCollision = function () {
+    this.checkLeftCollision = function () {
+      let rotatedForm = "O";
+      switch(rotatedForm) {
+        case "O" : //the square is formed of 2 rows of 2 mini squares
+          if (this.x >= 20 && droppedFormsGrid[(this.y)/20][(this.x-20)/20] === 0
+            && droppedFormsGrid[(this.y+20)/20][(this.x-20)/20] === 0) {
+              return true; //no collision, left permitted
+            } else {
+              return false;
+            }
+          break;
+        case "I" :
+
+          break;
+        case "T" :
+
+          break;
+        case "L" :
+
+          break;
+        case "J" :
+
+          break;
+        case "Z" :
+
+          break;
+        case "S" :
+
+          break;
+        // Complete with each form&rotation combination like L3,T2,B1,...
+      }
+    }
+
+    this.checkRightCollision = function () {
+      let rotatedForm = "O";
+      switch(rotatedForm) {
+        case "O" : //the square is formed of 2 rows of 2 mini squares
+          if (this.x + this.width <= 180
+            && droppedFormsGrid[(this.y)/20][(this.x+40)/20] === 0
+            && droppedFormsGrid[(this.y+20)/20][(this.x+40)/20] === 0) {
+              return true; //no collision, right permitted
+            } else {
+              return false;
+            }
+          break;
+        case "I" :
+
+          break;
+        case "T" :
+
+          break;
+        case "L" :
+
+          break;
+        case "J" :
+
+          break;
+        case "Z" :
+
+          break;
+        case "S" :
+
+          break;
+        // Complete with each form&rotation combination like L3,T2,B1,...
+      }
+    }
+
+    this.checkBottomCollision = function () {
       let rotatedForm = "O";
       //array of locations of each "mini square" forming the whole form in canvas2 Grid
       switch(rotatedForm) {
-
         case "O" : //the square is formed of 2 rows of 2 mini squares
-          // bottomMiniSquaresLocations = [
-          //   // droppedFormsGrid[this.y/20][this.x/20],              // [1,2]
-          //   // droppedFormsGrid[this.y/20][(this.x+20)/20]          // [3,4]
-          //   droppedFormsGrid[(this.y+20)/20][this.x/20],
-          //   droppedFormsGrid[(this.y+20)/20][(this.x+20)/20],
-          // ];
           if (currentForm.y + currentForm.height <= 420
-            && droppedFormsGrid[(this.y+40)/20][this.x/20] !== undefined
             && droppedFormsGrid[(this.y+40)/20][this.x/20] === 0
             && droppedFormsGrid[(this.y+40)/20][(this.x+20)/20] === 0) {
               return true; //no collision, keep falling
@@ -122,22 +180,22 @@ function Form(x, y, width, height) {
             }
           break;
         case "I" :
-          bottomMiniSquaresLocations = [];
+
           break;
         case "T" :
-          bottomMiniSquaresLocations = [];
+
           break;
         case "L" :
-          bottomMiniSquaresLocations = [];
+
           break;
         case "J" :
-          bottomMiniSquaresLocations = [];
+
           break;
         case "Z" :
-          bottomMiniSquaresLocations = [];
+
           break;
         case "S" :
-          bottomMiniSquaresLocations = [];
+
           break;
         // Complete with each form&rotation combination like L3,T2,B1,...
       }
@@ -178,11 +236,15 @@ function Form(x, y, width, height) {
     }
 }
 
+function randomForm(forms) {
+    return forms[Math.floor(Math.random() * forms.length)]
+}
 // Implementation
 let currentForm
 function init() {
+  const possibleForms = [new Form(60, 0, 40, 40)]; //list of possible forms+rotation
+  currentForm = randomForm(possibleForms);
   //Starting point. Next, need to randomize different forms creation.
-  currentForm = new Form(60, 0, 40, 40); //uncomment when UT done
   formFalls();
 }
 
