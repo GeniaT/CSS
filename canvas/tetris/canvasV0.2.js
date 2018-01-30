@@ -1,3 +1,6 @@
+// Left to do : chek bottomCollision !
+// J4 displays badly (too long), wheck why. 
+
 const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
 const droppedForms = document.querySelector('#droppedForms')
@@ -25,7 +28,6 @@ let droppedFormsGrid = [
   [0,0,0,0,0,0,0,0,0,0],
   [0,0,0,0,0,0,0,0,0,0],
   [0,0,0,0,0,0,0,0,0,0]]
-let currentMiniSquaresLocations = [];
 
 canvas.width = 200;
 canvas.height = 440;
@@ -112,22 +114,74 @@ function Form(x, y, width, height, form, rotation) {
         case "I2" :
           c.fillRect(this.x, this.y, this.width, this.height);
           break;
-        case "T" :
-
+        case "T1" :
+          c.fillRect(this.x, this.y, this.width, this.height/2);
+          c.fillRect(this.x+20, this.y, this.width/3, this.height);
           break;
-        case "L" :
-
+        case "T2" :
+          c.fillRect(this.x+20, this.y, this.width/2, this.height);
+          c.fillRect(this.x, this.y+20, this.width, this.height/3);
           break;
-        case "J" :
-
+        case "T3" :
+          c.fillRect(this.x, this.y+20, this.width, this.height/2);
+          c.fillRect(this.x+20, this.y, this.width/3, this.height);
           break;
-        case "Z" :
-
+        case "T4" :
+          c.fillRect(this.x, this.y, this.width/2, this.height);
+          c.fillRect(this.x, this.y+20, this.width, this.height/3);
           break;
-        case "S" :
+        case "L1" :
+        console.log("width of L1:", this.width);
+        console.log("height of L1:", this.height);
 
+          c.fillRect(this.x, this.y, this.width/2, this.height);
+          c.fillRect(this.x, this.y+40, this.width, this.height/3);
           break;
-        // Complete with each form&rotation combination like L3,T2,B1,...
+        case "L2" :
+          c.fillRect(this.x, this.y, this.width, this.height/2);
+          c.fillRect(this.x, this.y, this.width/3, this.height);
+          break;
+        case "L3" :
+          c.fillRect(this.x, this.y, this.width, this.height/3);
+          c.fillRect(this.x+20, this.y, this.width/2, this.height);
+          break;
+        case "L4" :
+          c.fillRect(this.x, this.y+20, this.width, this.height/2);
+          c.fillRect(this.x+60, this.y, this.width/3, this.height);
+          break;
+        case "J1" :
+          c.fillRect(this.x+20, this.y, this.width/2, this.height);
+          c.fillRect(this.x, this.y+40, this.width, this.height/3);
+          break;
+        case "J2" :
+          c.fillRect(this.x, this.y, this.width/3, this.height);
+          c.fillRect(this.x, this.y+20, this.width, this.height/2);
+          break;
+        case "J3" :
+          c.fillRect(this.x, this.y, this.width, this.height/3);
+          c.fillRect(this.x, this.y, this.width/2, this.height);
+          break;
+        case "J4" :
+          c.fillRect(this.x, this.y, this.width, this.height/2);
+          c.fillRect(this.x+60, this.y, this.width/3, this.height);
+          break;
+
+        case "S1" :
+          c.fillRect(this.x, this.y, this.width/2, this.height*2/3);
+          c.fillRect(this.x+20, this.y+20, this.width/2, this.height*2/3);
+          break;
+        case "S2" :
+          c.fillRect(this.x+20, this.y, this.width*2/3, this.height/2);
+          c.fillRect(this.x, this.y+20, this.width*2/3, this.height/2);
+          break;
+        case "Z1" :
+          c.fillRect(this.x+20, this.y, this.width/2, this.height*2/3);
+          c.fillRect(this.x, this.y+20, this.width/2, this.height*2/3);
+          break;
+        case "Z2" :
+          c.fillRect(this.x, this.y, this.width*2/3, this.height/2);
+          c.fillRect(this.x+20, this.y+20, this.width*2/3, this.height/2);
+          break;
       }
     }
     this.checkLeftCollision = function () {
@@ -139,7 +193,8 @@ function Form(x, y, width, height, form, rotation) {
             }
           break;
         case "I1" :
-          if (this.x >= 20 && droppedFormsGrid[(this.y)/20][(this.x-20)/20] === 0
+          if (this.x >= 20
+            && droppedFormsGrid[(this.y)/20][(this.x-20)/20] === 0
             && droppedFormsGrid[(this.y+20)/20][(this.x-20)/20] === 0
             && droppedFormsGrid[(this.y+40)/20][(this.x-20)/20] === 0
             && droppedFormsGrid[(this.y+60)/20][(this.x-20)/20] === 0) {
@@ -151,22 +206,128 @@ function Form(x, y, width, height, form, rotation) {
               return true;
             }
           break;
-        case "T" :
-
+        case "T1" :
+          if (this.x >= 20
+            && droppedFormsGrid[(this.y)/20][(this.x-20)/20] === 0
+            && droppedFormsGrid[(this.y+20)/20][this.x/20] === 0) {
+              return true;
+            }
           break;
-        case "L" :
-
+        case "T2" :
+          if (this.x >= 20
+            && droppedFormsGrid[(this.y)/20][(this.x)/20] === 0
+            && droppedFormsGrid[(this.y+20)/20][(this.x-20)/20] === 0
+            && droppedFormsGrid[(this.y+40)/20][(this.x)/20] === 0) {
+              return true;
+            }
           break;
-        case "J" :
-
+        case "T3" :
+          if (this.x >= 20
+            && droppedFormsGrid[(this.y+20)/20][(this.x-20)/20] === 0
+            && droppedFormsGrid[(this.y)/20][this.x/20] === 0) {
+              return true;
+            }
           break;
-        case "Z" :
-
+        case "T4" :
+          if (this.x >= 20
+            && droppedFormsGrid[(this.y)/20][(this.x-20)/20] === 0
+            && droppedFormsGrid[(this.y+20)/20][(this.x-20)/20] === 0
+            && droppedFormsGrid[(this.y+40)/20][(this.x-20)/20] === 0) {
+              return true;
+            }
           break;
-        case "S" :
-
+        case "L1" :
+          if (this.x >= 20
+            && droppedFormsGrid[(this.y)/20][(this.x-20)/20] === 0
+            && droppedFormsGrid[(this.y+20)/20][(this.x-20)/20] === 0
+            && droppedFormsGrid[(this.y+40)/20][(this.x-20)/20] === 0) {
+              return true;
+            }
           break;
-        // Complete with each form&rotation combination like L3,T2,B1,...
+        case "L2" :
+          if (this.x >= 20
+            && droppedFormsGrid[(this.y)/20][(this.x-20)/20] === 0
+            && droppedFormsGrid[(this.y+20)/20][this.x-20/20] === 0) {
+              return true;
+            }
+          break;
+        case "L3" :
+          if (this.x >= 20
+            && droppedFormsGrid[(this.y)/20][(this.x-20)/20] === 0
+            && droppedFormsGrid[(this.y+20)/20][(this.x)/20] === 0
+            && droppedFormsGrid[(this.y+40)/20][(this.x)/20] === 0) {
+              return true;
+            }
+          break;
+        case "L4" :
+          if (this.x >= 20
+            && droppedFormsGrid[(this.y)/20][(this.x+40)/20] === 0
+            && droppedFormsGrid[(this.y+20)/20][this.x-20/20] === 0) {
+              return true;
+            }
+          break;
+
+        case "J1" :
+          if (this.x >= 20
+            && droppedFormsGrid[(this.y)/20][(this.x)/20] === 0
+            && droppedFormsGrid[(this.y+20)/20][(this.x)/20] === 0
+            && droppedFormsGrid[(this.y+40)/20][(this.x-20)/20] === 0) {
+              return true;
+            }
+          break;
+        case "J2" :
+          if (this.x >= 20
+            && droppedFormsGrid[(this.y)/20][(this.x-20)/20] === 0
+            && droppedFormsGrid[(this.y+20)/20][this.x-20/20] === 0) {
+              return true;
+            }
+          break;
+        case "J3" :
+          if (this.x >= 20
+            && droppedFormsGrid[(this.y)/20][(this.x-20)/20] === 0
+            && droppedFormsGrid[(this.y+20)/20][(this.x-20)/20] === 0
+            && droppedFormsGrid[(this.y+40)/20][(this.x-20)/20] === 0) {
+              return true;
+            }
+          break;
+        case "J4" :
+          if (this.x >= 20
+            && droppedFormsGrid[(this.y)/20][(this.x-20)/20] === 0
+            && droppedFormsGrid[(this.y+20)/20][this.x+40/20] === 0) {
+              return true;
+            }
+          break;
+
+        case "S1" :
+          if (this.x >= 20
+            && droppedFormsGrid[(this.y)/20][(this.x-20)/20] === 0
+            && droppedFormsGrid[(this.y+20)/20][(this.x-20)/20] === 0
+            && droppedFormsGrid[(this.y+40)/20][(this.x)/20] === 0) {
+              return true;
+            }
+          break;
+        case "S2" :
+          if (this.x >= 20
+            && droppedFormsGrid[(this.y)/20][(this.x)/20] === 0
+            && droppedFormsGrid[(this.y+20)/20][this.x-20/20] === 0) {
+              return true;
+            }
+          break;
+        case "Z1" :
+          if (this.x >= 20
+            && droppedFormsGrid[(this.y)/20][(this.x)/20] === 0
+            && droppedFormsGrid[(this.y+20)/20][(this.x-20)/20] === 0
+            && droppedFormsGrid[(this.y+40)/20][(this.x-20)/20] === 0) {
+              return true;
+            }
+          break;
+        case "Z2" :
+          if (this.x >= 20
+            && droppedFormsGrid[(this.y)/20][(this.x-20)/20] === 0
+            && droppedFormsGrid[(this.y+20)/20][this.x/20] === 0) {
+              return true;
+            }
+          break;
       }
     }
 
@@ -181,7 +342,7 @@ function Form(x, y, width, height, form, rotation) {
           break;
         case "I1" :
           if (this.x + this.width <= 180
-            && droppedFormsGrid[(this.y)/20][(this.x-20)/20] === 0
+            && droppedFormsGrid[(this.y)/20][(this.x+20)/20] === 0
             && droppedFormsGrid[(this.y+20)/20][(this.x+20)/20] === 0
             && droppedFormsGrid[(this.y+40)/20][(this.x+20)/20] === 0
             && droppedFormsGrid[(this.y+60)/20][(this.x+20)/20] === 0) {
@@ -194,22 +355,128 @@ function Form(x, y, width, height, form, rotation) {
               return true;
             }
           break;
-        case "T" :
-
+        case "T1" :
+          if (this.x + this.width <= 180
+            && droppedFormsGrid[(this.y)/20][(this.x+60)/20] === 0
+            && droppedFormsGrid[(this.y+20)/20][(this.x+40)/20] === 0) {
+              return true;
+            }
           break;
-        case "L" :
-
+        case "T2" :
+          if (this.x + this.width <= 180
+            && droppedFormsGrid[(this.y)/20][(this.x+40)/20] === 0
+            && droppedFormsGrid[(this.y+20)/20][(this.x+40)/20] === 0
+            && droppedFormsGrid[(this.y+40)/20][(this.x+40)/20] === 0) {
+              return true;
+            }
           break;
-        case "J" :
-
+        case "T3" :
+          if (this.x + this.width <= 180
+            && droppedFormsGrid[(this.y+20)/20][(this.x+60)/20] === 0
+            && droppedFormsGrid[(this.y)/20][(this.x+40)/20] === 0) {
+              return true;
+            }
           break;
-        case "Z" :
-
+        case "T4" :
+          if (this.x + this.width <= 180
+            && droppedFormsGrid[(this.y)/20][(this.x+20)/20] === 0
+            && droppedFormsGrid[(this.y+20)/20][(this.x+40)/20] === 0
+            && droppedFormsGrid[(this.y+40)/20][(this.x+20)/20] === 0) {
+              return true;
+            }
           break;
-        case "S" :
-
+        case "L1" :
+          if (this.x + this.width <= 180
+            && droppedFormsGrid[(this.y)/20][(this.x+20)/20] === 0
+            && droppedFormsGrid[(this.y+20)/20][(this.x+20)/20] === 0
+            && droppedFormsGrid[(this.y+40)/20][(this.x+40)/20] === 0) {
+              return true;
+            }
           break;
-        // Complete with each form&rotation combination like L3,T2,B1,...
+        case "L2" :
+        if (this.x + this.width <= 180
+          && droppedFormsGrid[(this.y)/20][(this.x+60)/20] === 0
+          && droppedFormsGrid[(this.y+20)/20][(this.x+20)/20] === 0) {
+            return true;
+          }
+          break;
+        case "L3" :
+          if (this.x + this.width <= 180
+            && droppedFormsGrid[(this.y)/20][(this.x+40)/20] === 0
+            && droppedFormsGrid[(this.y+20)/20][(this.x+40)/20] === 0
+            && droppedFormsGrid[(this.y+40)/20][(this.x+40)/20] === 0) {
+              return true;
+            }
+          break;
+        case "L4" :
+        if (this.x + this.width <= 180
+          && droppedFormsGrid[(this.y)/20][(this.x+60)/20] === 0
+          && droppedFormsGrid[(this.y+20)/20][(this.x+60)/20] === 0) {
+            return true;
+          }
+          break;
+
+        case "J1" :
+          if (this.x + this.width <= 180
+            && droppedFormsGrid[(this.y)/20][(this.x+40)/20] === 0
+            && droppedFormsGrid[(this.y+20)/20][(this.x+40)/20] === 0
+            && droppedFormsGrid[(this.y+40)/20][(this.x+40)/20] === 0) {
+              return true;
+            }
+          break;
+        case "J2" :
+        if (this.x + this.width <= 180
+          && droppedFormsGrid[(this.y)/20][(this.x+20)/20] === 0
+          && droppedFormsGrid[(this.y+20)/20][(this.x+60)/20] === 0) {
+            return true;
+          }
+          break;
+        case "J3" :
+          if (this.x + this.width <= 180
+            && droppedFormsGrid[(this.y)/20][(this.x+40)/20] === 0
+            && droppedFormsGrid[(this.y+20)/20][(this.x+20)/20] === 0
+            && droppedFormsGrid[(this.y+40)/20][(this.x+20)/20] === 0) {
+              return true;
+            }
+          break;
+        case "J4" :
+        if (this.x + this.width <= 180
+          && droppedFormsGrid[(this.y)/20][(this.x+60)/20] === 0
+          && droppedFormsGrid[(this.y+20)/20][(this.x+60)/20] === 0) {
+            return true;
+          }
+          break;
+
+        case "S1" :
+          if (this.x + this.width <= 180
+            && droppedFormsGrid[(this.y)/20][(this.x+20)/20] === 0
+            && droppedFormsGrid[(this.y+20)/20][(this.x+40)/20] === 0
+            && droppedFormsGrid[(this.y+40)/20][(this.x+40)/20] === 0) {
+              return true;
+            }
+          break;
+        case "S2" :
+        if (this.x + this.width <= 180
+          && droppedFormsGrid[(this.y)/20][(this.x+60)/20] === 0
+          && droppedFormsGrid[(this.y+20)/20][(this.x+40)/20] === 0) {
+            return true;
+          }
+          break;
+        case "Z1" :
+          if (this.x + this.width <= 180
+            && droppedFormsGrid[(this.y)/20][(this.x+40)/20] === 0
+            && droppedFormsGrid[(this.y+20)/20][(this.x+40)/20] === 0
+            && droppedFormsGrid[(this.y+40)/20][(this.x+20)/20] === 0) {
+              return true;
+            }
+          break;
+        case "Z2" :
+        if (this.x + this.width <= 180
+          && droppedFormsGrid[(this.y)/20][(this.x+40)/20] === 0
+          && droppedFormsGrid[(this.y+20)/20][(this.x+60)/20] === 0) {
+            return true;
+          }
+          break;
       }
     }
 
@@ -237,22 +504,126 @@ function Form(x, y, width, height, form, rotation) {
               return true;
             }
           break;
-        case "T" :
-
+        case "T1" :
+          if (currentForm.y + currentForm.height <= 420
+            && droppedFormsGrid[(this.y+20)/20][this.x/20] === 0
+            && droppedFormsGrid[(this.y+40)/20][(this.x+20)/20] === 0
+            && droppedFormsGrid[(this.y+20)/20][(this.x+40)/20] === 0) {
+              return true;
+            }
           break;
-        case "L" :
-
+        case "T2" :
+          if (currentForm.y + currentForm.height <= 420
+            && droppedFormsGrid[(this.y+40)/20][(this.x)/20] === 0
+            && droppedFormsGrid[(this.y+60)/20][(this.x+20)/20] === 0) {
+              return true;
+            }
           break;
-        case "J" :
-
+        case "T3" :
+          if (currentForm.y + currentForm.height <= 420
+            && droppedFormsGrid[(this.y+40)/20][this.x/20] === 0
+            && droppedFormsGrid[(this.y+40)/20][(this.x+20)/20] === 0
+            && droppedFormsGrid[(this.y+40)/20][(this.x+40)/20] === 0) {
+              return true;
+            }
           break;
-        case "Z" :
-
+        case "T4" :
+          if (currentForm.y + currentForm.height <= 420
+            && droppedFormsGrid[(this.y+40)/20][(this.x+20)/20] === 0
+            && droppedFormsGrid[(this.y+60)/20][(this.x)/20] === 0) {
+              return true;
+            }
           break;
-        case "S" :
-
+        case "L1" :
+          if (currentForm.y + currentForm.height <= 420
+            && droppedFormsGrid[(this.y+60)/20][(this.x)/20] === 0
+            && droppedFormsGrid[(this.y+60)/20][(this.x+20)/20] === 0) {
+              return true;
+            }
           break;
-        // Complete with each form&rotation combination like L3,T2,B1,...
+        case "L2" :
+          if (currentForm.y + currentForm.height <= 420
+            && droppedFormsGrid[(this.y+40)/20][this.x/20] === 0
+            && droppedFormsGrid[(this.y+20)/20][(this.x+20)/20] === 0
+            && droppedFormsGrid[(this.y+20)/20][(this.x+40)/20] === 0) {
+              return true;
+            }
+          break;
+        case "L3" :
+        if (currentForm.y + currentForm.height <= 420
+          && droppedFormsGrid[(this.y+20)/20][(this.x)/20] === 0
+          && droppedFormsGrid[(this.y+60)/20][(this.x+20)/20] === 0) {
+            return true;
+          }
+          break;
+        case "L4" :
+          if (currentForm.y + currentForm.height <= 420
+            && droppedFormsGrid[(this.y+40)/20][this.x/20] === 0
+            && droppedFormsGrid[(this.y+40)/20][(this.x+20)/20] === 0
+            && droppedFormsGrid[(this.y+40)/20][(this.x+40)/20] === 0) {
+              return true;
+            }
+          break;
+        case "J1" :
+        if (currentForm.y + currentForm.height <= 420
+          && droppedFormsGrid[(this.y+60)/20][(this.x)/20] === 0
+          && droppedFormsGrid[(this.y+60)/20][(this.x+20)/20] === 0) {
+            return true;
+          }
+          break;
+        case "J2" :
+          if (currentForm.y + currentForm.height <= 420
+            && droppedFormsGrid[(this.y+40)/20][this.x/20] === 0
+            && droppedFormsGrid[(this.y+40)/20][(this.x+20)/20] === 0
+            && droppedFormsGrid[(this.y+40)/20][(this.x+40)/20] === 0) {
+              return true;
+            }
+          break;
+        case "J3" :
+        if (currentForm.y + currentForm.height <= 420
+          && droppedFormsGrid[(this.y+60)/20][(this.x)/20] === 0
+          && droppedFormsGrid[(this.y+20)/20][(this.x+20)/20] === 0) {
+            return true;
+          }
+          break;
+        case "J4" :
+          if (currentForm.y + currentForm.height <= 420
+            && droppedFormsGrid[(this.y+20)/20][this.x/20] === 0
+            && droppedFormsGrid[(this.y+20)/20][(this.x+20)/20] === 0
+            && droppedFormsGrid[(this.y+40)/20][(this.x+40)/20] === 0) {
+              return true;
+            }
+          break;
+        case "S1" :
+        if (currentForm.y + currentForm.height <= 420
+          && droppedFormsGrid[(this.y+40)/20][(this.x)/20] === 0
+          && droppedFormsGrid[(this.y+60)/20][(this.x+20)/20] === 0) {
+            return true;
+          }
+          break;
+        case "S2" :
+          if (currentForm.y + currentForm.height <= 420
+            && droppedFormsGrid[(this.y+40)/20][this.x/20] === 0
+            && droppedFormsGrid[(this.y+40)/20][(this.x+20)/20] === 0
+            && droppedFormsGrid[(this.y+20)/20][(this.x+40)/20] === 0) {
+              return true;
+            }
+          break;
+        case "Z1" :
+        if (currentForm.y + currentForm.height <= 420
+          && droppedFormsGrid[(this.y+60)/20][(this.x)/20] === 0
+          && droppedFormsGrid[(this.y+40)/20][(this.x+20)/20] === 0) {
+            return true;
+          }
+          break;
+        case "Z2" :
+          if (currentForm.y + currentForm.height <= 420
+            && droppedFormsGrid[(this.y+20)/20][this.x/20] === 0
+            && droppedFormsGrid[(this.y+40)/20][(this.x+20)/20] === 0
+            && droppedFormsGrid[(this.y+40)/20][(this.x+40)/20] === 0) {
+              return true;
+            }
+          break;
       }
     }
     this.addFormToCanvas2 = function() {
@@ -275,17 +646,102 @@ function Form(x, y, width, height, form, rotation) {
           droppedFormsGrid[this.y/20][(this.x+40)/20] = 1
           droppedFormsGrid[this.y/20][(this.x+60)/20] = 1
           break;
-        case "T" :
+        case "T1" :
+          droppedFormsGrid[this.y/20][this.x/20] = 1
+          droppedFormsGrid[this.y/20][(this.x+20)/20] = 1
+          droppedFormsGrid[this.y/20][(this.x+40)/20] = 1
+          droppedFormsGrid[(this.y+20)/20][(this.x+20)/20] = 1
           break;
-        case "L" :
+        case "T2" :
+          droppedFormsGrid[this.y/20][(this.x+20)/20] = 1
+          droppedFormsGrid[(this.y+20)/20][(this.x)/20] = 1
+          droppedFormsGrid[(this.y+20)/20][(this.x+20)/20] = 1
+          droppedFormsGrid[(this.y+40)/20][(this.x+20)/20] = 1
           break;
-        case "J" :
+        case "T3" :
+          droppedFormsGrid[(this.y)/20][(this.x+20)/20] = 1
+          droppedFormsGrid[(this.y+20)/20][(this.x)/20] = 1
+          droppedFormsGrid[(this.y+20)/20][(this.x+20)/20] = 1
+          droppedFormsGrid[(this.y+20)/20][(this.x+40)/20] = 1
           break;
-        case "Z" :
+        case "T4" :
+          droppedFormsGrid[this.y/20][this.x/20] = 1
+          droppedFormsGrid[(this.y+20)/20][(this.x)/20] = 1
+          droppedFormsGrid[(this.y+40)/20][(this.x)/20] = 1
+          droppedFormsGrid[(this.y+20)/20][(this.x+20)/20] = 1
           break;
-        case "S" :
+        case "L1" :
+        droppedFormsGrid[this.y/20][this.x/20] = 1
+        droppedFormsGrid[(this.y+20)/20][(this.x)/20] = 1
+        droppedFormsGrid[(this.y+40)/20][(this.x)/20] = 1
+        droppedFormsGrid[(this.y+40)/20][(this.x+20)/20] = 1
           break;
-        // Complete with each form&rotation combination like L3,T2,B1,...
+        case "L2" :
+        droppedFormsGrid[this.y/20][this.x/20] = 1
+        droppedFormsGrid[this.y/20][(this.x+20)/20] = 1
+        droppedFormsGrid[this.y/20][(this.x+40)/20] = 1
+        droppedFormsGrid[(this.y+20)/20][(this.x)/20] = 1
+          break;
+        case "L3" :
+        droppedFormsGrid[this.y/20][(this.x+20)/20] = 1
+        droppedFormsGrid[(this.y+20)/20][(this.x+20)/20] = 1
+        droppedFormsGrid[(this.y+40)/20][(this.x+20)/20] = 1
+        droppedFormsGrid[(this.y)/20][(this.x)/20] = 1
+          break;
+        case "L4" :
+        droppedFormsGrid[(this.y+20)/20][this.x/20] = 1
+        droppedFormsGrid[(this.y+20)/20][(this.x+20)/20] = 1
+        droppedFormsGrid[(this.y+20)/20][(this.x+40)/20] = 1
+        droppedFormsGrid[(this.y)/20][(this.x+40)/20] = 1
+          break;
+        case "J1" :
+        droppedFormsGrid[this.y/20][(this.x+20)/20] = 1
+        droppedFormsGrid[(this.y+20)/20][(this.x+20)/20] = 1
+        droppedFormsGrid[(this.y+40)/20][(this.x+20)/20] = 1
+        droppedFormsGrid[(this.y+40)/20][(this.x)/20] = 1
+          break;
+        case "J2" :
+        droppedFormsGrid[(this.y+20)/20][this.x/20] = 1
+        droppedFormsGrid[(this.y+20)/20][(this.x+20)/20] = 1
+        droppedFormsGrid[(this.y+20)/20][(this.x+40)/20] = 1
+        droppedFormsGrid[(this.y)/20][(this.x)/20] = 1
+          break;
+        case "J3" :
+        droppedFormsGrid[this.y/20][this.x/20] = 1
+        droppedFormsGrid[(this.y+20)/20][(this.x)/20] = 1
+        droppedFormsGrid[(this.y+40)/20][(this.x)/20] = 1
+        droppedFormsGrid[(this.y)/20][(this.x+20)/20] = 1
+          break;
+        case "J4" :
+        droppedFormsGrid[this.y/20][this.x/20] = 1
+        droppedFormsGrid[this.y/20][(this.x+20)/20] = 1
+        droppedFormsGrid[this.y/20][(this.x+40)/20] = 1
+        droppedFormsGrid[(this.y+20)/20][(this.x+40)/20] = 1
+          break;
+        case "S1" :
+        droppedFormsGrid[this.y/20][this.x/20] = 1
+        droppedFormsGrid[(this.y+20)/20][(this.x)/20] = 1
+        droppedFormsGrid[(this.y+40)/20][(this.x+20)/20] = 1
+        droppedFormsGrid[(this.y+20)/20][(this.x+20)/20] = 1
+          break;
+        case "S2" :
+        droppedFormsGrid[this.y/20][(this.x+20)/20] = 1
+        droppedFormsGrid[(this.y)/20][(this.x+40)/20] = 1
+        droppedFormsGrid[(this.y+20)/20][(this.x)/20] = 1
+        droppedFormsGrid[(this.y+20)/20][(this.x+20)/20] = 1
+          break;
+        case "Z1" :
+        droppedFormsGrid[this.y/20][this.x+20/20] = 1
+        droppedFormsGrid[(this.y+20)/20][(this.x)/20] = 1
+        droppedFormsGrid[(this.y+20)/20][(this.x+20)/20] = 1
+        droppedFormsGrid[(this.y+40)/20][(this.x)/20] = 1
+          break;
+        case "Z2" :
+        droppedFormsGrid[this.y/20][this.x/20] = 1
+        droppedFormsGrid[(this.y)/20][(this.x+20)/20] = 1
+        droppedFormsGrid[(this.y+20)/20][(this.x+20)/20] = 1
+        droppedFormsGrid[(this.y+20)/20][(this.x+40)/20] = 1
+          break;
       }
 
       //check for full lines in canvas2: if full lines, remove this from droppedFormsGrid
@@ -314,28 +770,75 @@ function rotate() {
     case "I2" :
       currentForm = new Form(currentX, currentY , 20, 80, "I", 1);
       break;
-    case "T" :
+    case "T1" :
+      currentForm = new Form(currentX, currentY , 40, 60, "T", 2);
       break;
-    case "L" :
+    case "T2" :
+      currentForm = new Form(currentX, currentY , 60, 40, "T", 3);
       break;
-    case "J" :
+    case "T3" :
+      currentForm = new Form(currentX, currentY , 40, 60, "T", 4);
       break;
-    case "Z" :
+    case "T4" :
+      currentForm = new Form(currentX, currentY , 60, 40, "T", 1);
       break;
-    case "S" :
+    case "L1" :
+      currentForm = new Form(currentX, currentY , 60, 40, "L", 2);
       break;
-    // Complete with each form&rotation combination like L3,T2,B1,...
+    case "L2" :
+      currentForm = new Form(currentX, currentY , 40, 60, "L", 3);
+      break;
+    case "L3" :
+      currentForm = new Form(currentX, currentY , 60, 40, "L", 4);
+      break;
+    case "L4" :
+      currentForm = new Form(currentX, currentY , 40, 60, "L", 1);
+      break;
+    case "J1" :
+      currentForm = new Form(currentX, currentY , 60, 40, "J", 2);
+      break;
+    case "J2" :
+      currentForm = new Form(currentX, currentY , 40, 60, "J", 3);
+      break;
+    case "J3" :
+      currentForm = new Form(currentX, currentY , 60, 40, "J", 4);
+      break;
+    case "J4" :
+      currentForm = new Form(currentX, currentY , 40, 60, "J", 1);
+      break;
+    case "S1" :
+      currentForm = new Form(currentX, currentY , 60, 40, "S", 2);
+      break;
+    case "S2" :
+      currentForm = new Form(currentX, currentY , 40, 60, "S", 1);
+      break;
+    case "Z1" :
+      currentForm = new Form(currentX, currentY , 60, 40, "Z", 2);
+      break;
+    case "Z2" :
+      currentForm = new Form(currentX, currentY , 40, 60, "Z", 1);
+      break;
   }
     rotatedForm = `${currentForm.form}${currentForm.rotation}`;
+    console.log("form:", rotatedForm);
 }
 // Implementation
 let currentForm
 function init() {
-  const formAndRotationParams = [ [60, 0, 40, 40, "O", 1], [60, 0, 20, 80, "I", 1], [60, 0, 80, 20, "I", 2] ];
+  const formAndRotationParams = [
+    // [60, 0, 40, 40, "O", 1],
+    // [60, 0, 20, 80, "I", 1], [60, 0, 80, 20, "I", 2],
+    // [60, 0, 60, 40, "T", 1], [60, 0, 40, 60, "T", 2], [60, 0, 60, 40, "T", 3], [60, 0, 40, 60, "T", 4],
+    [60, 0, 40, 60, "L", 1], [60, 0, 60, 40, "L", 2], [60, 0, 40, 60, "L", 3], [60, 0, 60, 40, "L", 4],
+    [60, 0, 40, 60, "J", 1], [60, 0, 60, 40, "J", 2], [60, 0, 40, 60, "J", 3], [60, 0, 60, 40, "J", 4],
+    // [60, 0, 40, 60, "S", 1], [60, 0, 60, 40, "S", 2],
+    // [60, 0, 40, 60, "Z", 1], [60, 0, 60, 40, "Z", 2]
+   ];
   let index = Math.floor(Math.random() * formAndRotationParams.length)
   let newForm = formAndRotationParams[index];
   currentForm = new Form(60, 0, newForm[2], newForm[3], newForm[4], newForm[5]);
   rotatedForm = `${currentForm.form}${currentForm.rotation}`;
+  console.log("form:", rotatedForm);
   formFalls();
 }
 
