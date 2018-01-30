@@ -42,6 +42,8 @@ document.onkeydown = function(e) {
           break;
       case 38:
           console.log('up');
+          //to continue......
+          rotate();
           break;
       case 39:
           console.log('right');
@@ -71,7 +73,7 @@ function formFalls() {
       currentForm.addFormToCanvas2();
       init()
     }
-  }, 100);
+  }, 1000);
 }
 
 function rerenderCanvas2() {
@@ -86,6 +88,7 @@ function rerenderCanvas2() {
   }
 }
 
+let rotatedForm;
 function Form(x, y, width, height, form, rotation) {
     this.x = x
     this.y = y
@@ -93,7 +96,7 @@ function Form(x, y, width, height, form, rotation) {
     this.height = height
     this.form = form
     this.rotation = rotation
-    let rotatedForm = `${this.form}${this.rotation}`;
+    rotatedForm = `${this.form}${this.rotation}`;
 
     this.update = function() {
       this.draw()
@@ -102,7 +105,11 @@ function Form(x, y, width, height, form, rotation) {
       c.fillStyle = 'rgba(255,0,0,0.5)';
       switch(rotatedForm) {
         case "O1" :
+          c.fillRect(this.x, this.y, this.width, this.height);
+          break;
         case "I1" :
+          c.fillRect(this.x, this.y, this.width, this.height);
+          break;
         case "I2" :
           c.fillRect(this.x, this.y, this.width, this.height);
           break;
@@ -294,22 +301,61 @@ function Form(x, y, width, height, form, rotation) {
       rerenderCanvas2();
     }
 }
-let index;
-function randomForm(forms) {
-  index = Math.floor(Math.random() * forms.length)
-  console.log('index', index);
-  let randomizedForm = forms[index]
-    return randomizedForm
+// let index;
+// let index2;
+// function randomForm(forms) {
+//   index = Math.floor(Math.random() * forms.length)
+//   // index2 = Math.floor(Math.random() * forms[index].length)
+//   console.log('index', index);
+//   // console.log('index2', index2)
+//   let randomizedForm = forms[index]
+//     return randomizedForm
+// }
+
+function rotate() {
+  // console.log("trying to rotate!");
+  console.log("current form before rotation", rotatedForm);
+  let currentX = currentForm.x;
+  let currentY = currentForm.y;
+  switch(rotatedForm) { //in each case, we draw the next rotation, "rotatedForm" is the present form & rotation.
+    case "O1" :
+      currentForm = new Form(currentX, currentY , 40, 40, "O", 1);
+      break;
+    case "I1" :
+      // console.log('supposed to flip I1 into I2...');
+      currentForm = new Form(currentX, currentY , 80, 20, "I", 2);
+      break;
+    case "I2" :
+      currentForm = new Form(currentX, currentY , 20, 80, "I", 1);
+      break;
+    case "T" :
+      break;
+    case "L" :
+      break;
+    case "J" :
+      break;
+    case "Z" :
+      break;
+    case "S" :
+      break;
+    // Complete with each form&rotation combination like L3,T2,B1,...
+  }
+    rotatedForm = `${currentForm.form}${currentForm.rotation}`;
+    console.log("current form after rotation", rotatedForm);
 }
 // Implementation
 let currentForm
 function init() {
-  const possibleForms = [
-    new Form(60, 0, 40, 40, "O", "1"),
-    new Form(60, 0, 20, 80, "I", "1"),
-    new Form(60, 0, 80, 20, "I", "2")
-  ]; //list of possible forms+rotation
-  currentForm = randomForm(possibleForms);
+  const formAndRotationParams = [ [60, 0, 40, 40, "O", 1], [60, 0, 20, 80, "I", 1], [60, 0, 80, 20, "I", 2] ];
+  let index = Math.floor(Math.random() * formAndRotationParams.length)
+  let newForm = formAndRotationParams[index];
+  // [
+  //   [[new Form(60, 0, 40, 40, "O", 1), [1]]],
+  //   [[new Form(60, 0, 20, 80, "I", 1), [1]]/*, [new Form(60, 0, 80, 20, "I", 2), [2]]*/]
+  // ];
+  // currentForm = randomForm(possibleForms);
+  currentForm = new Form(newForm[0], newForm[1], newForm[2], newForm[3], newForm[4], newForm[5]);
+  rotatedForm = `${currentForm.form}${currentForm.rotation}`;
   formFalls();
 }
 
