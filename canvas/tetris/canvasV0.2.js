@@ -1,5 +1,13 @@
-// Left to do : chek bottomCollision !
-// J4 displays badly (too long), wheck why. 
+Nice to add:
+Traditional tetris music :)
+Sound on new form pop
+Score incremented on full lines
+Sound on full line
+different colors
+border around forms
+Choose a difficulty
+Start and pause buttons
+
 
 const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
@@ -131,9 +139,6 @@ function Form(x, y, width, height, form, rotation) {
           c.fillRect(this.x, this.y+20, this.width, this.height/3);
           break;
         case "L1" :
-        console.log("width of L1:", this.width);
-        console.log("height of L1:", this.height);
-
           c.fillRect(this.x, this.y, this.width/2, this.height);
           c.fillRect(this.x, this.y+40, this.width, this.height/3);
           break;
@@ -147,7 +152,7 @@ function Form(x, y, width, height, form, rotation) {
           break;
         case "L4" :
           c.fillRect(this.x, this.y+20, this.width, this.height/2);
-          c.fillRect(this.x+60, this.y, this.width/3, this.height);
+          c.fillRect(this.x+40, this.y, this.width/3, this.height);
           break;
         case "J1" :
           c.fillRect(this.x+20, this.y, this.width/2, this.height);
@@ -163,7 +168,7 @@ function Form(x, y, width, height, form, rotation) {
           break;
         case "J4" :
           c.fillRect(this.x, this.y, this.width, this.height/2);
-          c.fillRect(this.x+60, this.y, this.width/3, this.height);
+          c.fillRect(this.x+40, this.y, this.width/3, this.height);
           break;
 
         case "S1" :
@@ -247,7 +252,7 @@ function Form(x, y, width, height, form, rotation) {
         case "L2" :
           if (this.x >= 20
             && droppedFormsGrid[(this.y)/20][(this.x-20)/20] === 0
-            && droppedFormsGrid[(this.y+20)/20][this.x-20/20] === 0) {
+            && droppedFormsGrid[(this.y+20)/20][(this.x-20)/20] === 0) {
               return true;
             }
           break;
@@ -262,7 +267,7 @@ function Form(x, y, width, height, form, rotation) {
         case "L4" :
           if (this.x >= 20
             && droppedFormsGrid[(this.y)/20][(this.x+40)/20] === 0
-            && droppedFormsGrid[(this.y+20)/20][this.x-20/20] === 0) {
+            && droppedFormsGrid[(this.y+20)/20][(this.x-20)/20] === 0) {
               return true;
             }
           break;
@@ -278,7 +283,7 @@ function Form(x, y, width, height, form, rotation) {
         case "J2" :
           if (this.x >= 20
             && droppedFormsGrid[(this.y)/20][(this.x-20)/20] === 0
-            && droppedFormsGrid[(this.y+20)/20][this.x-20/20] === 0) {
+            && droppedFormsGrid[(this.y+20)/20][(this.x-20)/20] === 0) {
               return true;
             }
           break;
@@ -293,7 +298,7 @@ function Form(x, y, width, height, form, rotation) {
         case "J4" :
           if (this.x >= 20
             && droppedFormsGrid[(this.y)/20][(this.x-20)/20] === 0
-            && droppedFormsGrid[(this.y+20)/20][this.x+40/20] === 0) {
+            && droppedFormsGrid[(this.y+20)/20][(this.x+40)/20] === 0) {
               return true;
             }
           break;
@@ -309,7 +314,7 @@ function Form(x, y, width, height, form, rotation) {
         case "S2" :
           if (this.x >= 20
             && droppedFormsGrid[(this.y)/20][(this.x)/20] === 0
-            && droppedFormsGrid[(this.y+20)/20][this.x-20/20] === 0) {
+            && droppedFormsGrid[(this.y+20)/20][(this.x-20)/20] === 0) {
               return true;
             }
           break;
@@ -774,71 +779,85 @@ function rotate() {
       currentForm = new Form(currentX, currentY , 40, 60, "T", 2);
       break;
     case "T2" :
-      currentForm = new Form(currentX, currentY , 60, 40, "T", 3);
+      if (currentX + 60 <= 200) { //we make sure there is room from current position for longer width.
+        currentForm = new Form(currentX, currentY , 60, 40, "T", 3);
+      }
       break;
     case "T3" :
       currentForm = new Form(currentX, currentY , 40, 60, "T", 4);
       break;
     case "T4" :
-      currentForm = new Form(currentX, currentY , 60, 40, "T", 1);
+      if (currentX + 60 <= 200) {
+        currentForm = new Form(currentX, currentY , 60, 40, "T", 1);
+      }
       break;
     case "L1" :
-      currentForm = new Form(currentX, currentY , 60, 40, "L", 2);
+        if (currentX + 60 <= 200) {
+          currentForm = new Form(currentX, currentY , 60, 40, "L", 2);
+        }
       break;
     case "L2" :
       currentForm = new Form(currentX, currentY , 40, 60, "L", 3);
       break;
     case "L3" :
-      currentForm = new Form(currentX, currentY , 60, 40, "L", 4);
+      if (currentX + 60 <= 200) {
+        currentForm = new Form(currentX, currentY , 60, 40, "L", 4);
+      }
       break;
     case "L4" :
       currentForm = new Form(currentX, currentY , 40, 60, "L", 1);
       break;
     case "J1" :
-      currentForm = new Form(currentX, currentY , 60, 40, "J", 2);
+      if (currentX + 60 <= 200) {
+        currentForm = new Form(currentX, currentY , 60, 40, "J", 2);
+      }
       break;
     case "J2" :
       currentForm = new Form(currentX, currentY , 40, 60, "J", 3);
       break;
     case "J3" :
-      currentForm = new Form(currentX, currentY , 60, 40, "J", 4);
+      if (currentX + 60 <= 200) {
+        currentForm = new Form(currentX, currentY , 60, 40, "J", 4);
+      }
       break;
     case "J4" :
       currentForm = new Form(currentX, currentY , 40, 60, "J", 1);
       break;
     case "S1" :
-      currentForm = new Form(currentX, currentY , 60, 40, "S", 2);
+      if (currentX + 60 <= 200) {
+        currentForm = new Form(currentX, currentY , 60, 40, "S", 2);
+      }
       break;
     case "S2" :
       currentForm = new Form(currentX, currentY , 40, 60, "S", 1);
       break;
     case "Z1" :
-      currentForm = new Form(currentX, currentY , 60, 40, "Z", 2);
+      if (currentX + 60 <= 200) {
+        currentForm = new Form(currentX, currentY , 60, 40, "Z", 2);
+      }
       break;
     case "Z2" :
       currentForm = new Form(currentX, currentY , 40, 60, "Z", 1);
       break;
   }
     rotatedForm = `${currentForm.form}${currentForm.rotation}`;
-    console.log("form:", rotatedForm);
 }
 // Implementation
 let currentForm
 function init() {
   const formAndRotationParams = [
-    // [60, 0, 40, 40, "O", 1],
-    // [60, 0, 20, 80, "I", 1], [60, 0, 80, 20, "I", 2],
-    // [60, 0, 60, 40, "T", 1], [60, 0, 40, 60, "T", 2], [60, 0, 60, 40, "T", 3], [60, 0, 40, 60, "T", 4],
+    [60, 0, 40, 40, "O", 1],
+    [60, 0, 20, 80, "I", 1], [60, 0, 80, 20, "I", 2],
+    [60, 0, 60, 40, "T", 1], [60, 0, 40, 60, "T", 2], [60, 0, 60, 40, "T", 3], [60, 0, 40, 60, "T", 4],
     [60, 0, 40, 60, "L", 1], [60, 0, 60, 40, "L", 2], [60, 0, 40, 60, "L", 3], [60, 0, 60, 40, "L", 4],
     [60, 0, 40, 60, "J", 1], [60, 0, 60, 40, "J", 2], [60, 0, 40, 60, "J", 3], [60, 0, 60, 40, "J", 4],
-    // [60, 0, 40, 60, "S", 1], [60, 0, 60, 40, "S", 2],
-    // [60, 0, 40, 60, "Z", 1], [60, 0, 60, 40, "Z", 2]
+    [60, 0, 40, 60, "S", 1], [60, 0, 60, 40, "S", 2],
+    [60, 0, 40, 60, "Z", 1], [60, 0, 60, 40, "Z", 2]
    ];
   let index = Math.floor(Math.random() * formAndRotationParams.length)
   let newForm = formAndRotationParams[index];
   currentForm = new Form(60, 0, newForm[2], newForm[3], newForm[4], newForm[5]);
   rotatedForm = `${currentForm.form}${currentForm.rotation}`;
-  console.log("form:", rotatedForm);
   formFalls();
 }
 
