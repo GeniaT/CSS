@@ -1,12 +1,12 @@
-Nice to add:
-Traditional tetris music :)
-Sound on new form pop
-Score incremented on full lines
-Sound on full line
-different colors
-border around forms
-Choose a difficulty
-Start and pause buttons
+// Nice to add:
+// Traditional tetris music :)
+// Sound on new form pop
+// Score incremented on full lines
+// Sound on full line
+// different colors
+// border around forms
+// Choose a difficulty
+// Start and pause buttons
 
 
 const canvas = document.querySelector('canvas')
