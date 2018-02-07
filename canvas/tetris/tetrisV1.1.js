@@ -118,7 +118,7 @@ function newFormCreation() {
   let randomFColor = Math.floor(Math.random() * forms.length);
   currentForm = forms[randomForm];
   currentColor = colors[randomFColor];
-  currentX = 3;
+  currentX = 4;
   currentY = 0;
 }
 
@@ -143,7 +143,7 @@ function clearPreviousFromState() {
     for (let col = 0; col <= 3; col++) {
       if (gameGrid[currentY + row][currentX + col] === 1) {
         gameGrid[currentY + row][currentX + col] = 0;
-        c.clearRect((currentX + col) * 20, (currentY + row) * 20, 20, 20);
+        c.clearRect((currentX - 1 + col) * 20, (currentY + row) * 20, 20, 20);
       }
     }
   }
@@ -181,10 +181,11 @@ function renderCurrentForm() {
     for (let col = 0; col <= 3; col++) {
       if (currentForm[row][col] === 1) {
         gameGrid[currentY + row][currentX + col] = 1;
-        c.fillRect((currentX + col) * 20, (currentY + row) * 20, 20, 20);
+        c.fillRect((currentX - 1 + col) * 20, (currentY + row) * 20, 20, 20);
       }
     }
   }
+  console.log(gameGrid);
 }
 
 function fixFormToGrid() {
@@ -192,7 +193,7 @@ function fixFormToGrid() {
     for (let col = 0; col <= 3; col++) {
       if (currentForm[row][col] === 1) {
         gameGrid[currentY + row][currentX + col] = 2;
-        c.fillRect((currentX + col) * 20, (currentY + row) * 20, 20, 20);
+        c.fillRect((currentX - 1 + col) * 20, (currentY + row) * 20, 20, 20);
       }
     }
   }
