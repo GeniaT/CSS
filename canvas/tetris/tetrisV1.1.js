@@ -45,29 +45,30 @@ const forms = [
   ]
 ]
 const colors = ['#fc8df6','#998be5','#47aaed','#29d188','#e8d614','#ed6a3b','#8c9093'];
-let gameGrid = [
-  [0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0]]
+let gameGrid = [ //the '2s' define the border of the grid in the initial state.
+  [2,0,0,0,0,0,0,0,0,0,0,2],
+  [2,0,0,0,0,0,0,0,0,0,0,2],
+  [2,0,0,0,0,0,0,0,0,0,0,2],
+  [2,0,0,0,0,0,0,0,0,0,0,2],
+  [2,0,0,0,0,0,0,0,0,0,0,2],
+  [2,0,0,0,0,0,0,0,0,0,0,2],
+  [2,0,0,0,0,0,0,0,0,0,0,2],
+  [2,0,0,0,0,0,0,0,0,0,0,2],
+  [2,0,0,0,0,0,0,0,0,0,0,2],
+  [2,0,0,0,0,0,0,0,0,0,0,2],
+  [2,0,0,0,0,0,0,0,0,0,0,2],
+  [2,0,0,0,0,0,0,0,0,0,0,2],
+  [2,0,0,0,0,0,0,0,0,0,0,2],
+  [2,0,0,0,0,0,0,0,0,0,0,2],
+  [2,0,0,0,0,0,0,0,0,0,0,2],
+  [2,0,0,0,0,0,0,0,0,0,0,2],
+  [2,0,0,0,0,0,0,0,0,0,0,2],
+  [2,0,0,0,0,0,0,0,0,0,0,2],
+  [2,0,0,0,0,0,0,0,0,0,0,2],
+  [2,0,0,0,0,0,0,0,0,0,0,2],
+  [2,0,0,0,0,0,0,0,0,0,0,2],
+  [2,0,0,0,0,0,0,0,0,0,0,2],
+  [2,2,2,2,2,2,2,2,2,2,2,2]]
 
 canvas.width = 200;
 canvas.height = 440;
@@ -81,18 +82,33 @@ document.onkeydown = function(e) {
   switch (e.keyCode) {
       case 37:
           console.log('left');
+          clearPreviousFromState();
+          currentX -= 1;
+          renderCurrentForm();
           break;
       case 38:
           console.log('up');
+          clearPreviousFromState();
           rotate();
           break;
       case 39:
           console.log('right');
+          clearPreviousFromState();
+          currentX += 1;
+          renderCurrentForm();
           break;
       case 40:
           console.log('down');
-          currentY += 1;
-          render();
+          if (checkBottomCollision()) {
+            clearPreviousFromState();
+            currentY += 1;
+            renderCurrentForm();
+          } else {
+            console.log(gameGrid);
+            fixFormToGrid();
+            clearInterval(interval);
+            init();
+          }
           break;
     }
 }
@@ -109,11 +125,29 @@ function newFormCreation() {
 let interval;
 function formFalls() {
   interval = setInterval(function() {
-    currentY += 1;
-    render();
+    if (checkBottomCollision()) {
+      clearPreviousFromState();
+      currentY += 1;
+      renderCurrentForm();
+    } else {
+      console.log(gameGrid);
+      fixFormToGrid();
+      clearInterval(interval);
+      init();
+    }
   }, 1000);
 }
 
+function clearPreviousFromState() {
+  for (let row = 0; row <= 3; row++) {
+    for (let col = 0; col <= 3; col++) {
+      if (gameGrid[currentY + row][currentX + col] === 1) {
+        gameGrid[currentY + row][currentX + col] = 0;
+        c.clearRect((currentX + col) * 20, (currentY + row) * 20, 20, 20);
+      }
+    }
+  }
+}
 function rotate() {
   //4x4 grid to rotate: columns become rows starting from bottom of the column.
   let rotatedForm = [[],[],[],[]];
@@ -123,42 +157,51 @@ function rotate() {
     }
   }
   currentForm = rotatedForm;
-  render();
+  renderCurrentForm();
+}
+
+function checkBottomCollision() {
+  //check if all the '1s' in current form state will meet '0s' in the gameGrid
+  let toCheckInGrid = [];
+  for (let row = 0; row <= 3; row++) {
+    for (let col = 0; col <= 3; col++) {
+      if (currentForm[row][col] === 1 && gameGrid[currentY+1 + row][currentX + col] === 2) {
+        return false;
+      }
+    }
+  }
+  return true;
 }
 
 
-
-function render() {
-  //we add the currentForm on the grid
+function renderCurrentForm() {
+  c.fillStyle = currentColor;
+  //we add the currentForm on the grid and render it
   for (let row = 0; row <= 3; row++) {
     for (let col = 0; col <= 3; col++) {
-      gameGrid[currentY + row][currentX + col] = currentForm[row][col];
-    }
-  }
-  //and draw all the '1' from the grid. (optimizable- redraw only the form, the other 1s on the bottom remain the same)
-  c.fillStyle = currentColor;
-  for (let row = 0; row < 22; row++) {
-    for (let col = 0; col < 10; col++) {
-      if (gameGrid[row][col] === 1) {
-        c.fillRect(col * 20, row * 20, 20, 20);
-      } else {
-        c.clearRect(col * 20, row * 20, 20, 20);
+      if (currentForm[row][col] === 1) {
+        gameGrid[currentY + row][currentX + col] = 1;
+        c.fillRect((currentX + col) * 20, (currentY + row) * 20, 20, 20);
       }
     }
   }
 }
+
+function fixFormToGrid() {
+  for (let row = 0; row <= 3; row++) {
+    for (let col = 0; col <= 3; col++) {
+      if (currentForm[row][col] === 1) {
+        gameGrid[currentY + row][currentX + col] = 2;
+        c.fillRect((currentX + col) * 20, (currentY + row) * 20, 20, 20);
+      }
+    }
+  }
+}
+
 function init() {
   newFormCreation();
-  render();
+  renderCurrentForm();
   // formFalls();
 }
 
-// function animate() {
-//     requestAnimationFrame(animate)
-//     c.clearRect(0, 0, canvas.width, canvas.height)
-//     render()
-// }
-
 init()
-// animate()
-//need to fix the "down" event so the grid is rendered properly. 
