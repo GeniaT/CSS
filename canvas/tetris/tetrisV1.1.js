@@ -109,7 +109,7 @@ document.onkeydown = function(e) {
             renderCurrentForm();
           } else {
             fixFormToGrid();
-            // checkFullLines();
+            checkFullLines();
             clearInterval(interval);
             init();
           }
@@ -118,8 +118,8 @@ document.onkeydown = function(e) {
 }
 
 function newFormCreation() {
-  let randomForm = Math.floor(Math.random() * forms.length);
-  // let randomForm = 0;
+  // let randomForm = Math.floor(Math.random() * forms.length);
+  let randomForm = 0;
   let randomFColor = Math.floor(Math.random() * forms.length);
   currentForm = forms[randomForm];
   currentColor = colors[randomFColor];
@@ -166,7 +166,7 @@ function rotate() {
   renderCurrentForm();
 }
 
-function checkLeftCollision() { //include in key events and test
+function checkLeftCollision() {
   for (let row = 0; row <= 3; row++) {
     for (let col = 0; col <= 3; col++) {
       if (currentForm[row][col] === 1 && gameGrid[currentY + row][currentX - 1 + col] === 2) {
@@ -177,7 +177,7 @@ function checkLeftCollision() { //include in key events and test
   return true; //permitted
 }
 
-function checkRightCollision() {//include in key events and test
+function checkRightCollision() {
   for (let row = 0; row <= 3; row++) {
     for (let col = 0; col <= 3; col++) {
       if (currentForm[row][col] === 1 && gameGrid[currentY + row][currentX + 1 + col] === 2) {
@@ -200,24 +200,28 @@ function checkBottomCollision() {
   return true;
 }
 
-function checkFullLines() { //to update, buggy.
+function checkFullLines() {
+  let fullLines = false;
   for (let i = 0; i < 22; i++) {
     if (gameGrid[i].indexOf(0) === -1) { //if full line
+      fullLines = true
       gameGrid.splice(i, 1);
-      gameGrid.unshift([2,0,0,0,0,0,0,0,0,0,0,2]);
-      rerenderCanvas();
-      return;
+      gameGrid.unshift([2,2,0,0,0,0,0,0,0,0,0,0,2,2]);
     }
+  }
+  if (fullLines) {
+    console.log("fullLines!");
+    rerenderCanvas();
   }
 }
 
-function rerenderCanvas() { //to update, buggy.
+function rerenderCanvas() {
   c.clearRect(0, 0, canvas.width, canvas.height);
   for (let row = 0; row < 22; row ++) {
-    for (let col = 0; col < 10; col++) {
+    for (let col = 1; col < 12; col++) {
       if (gameGrid[row][col] === 2) {
         c.fillStyle = 'rgba(255,0,0,0.5)';
-        c.fillRect(col * 20, row * 20, 20, 20);
+        c.fillRect((col - 2) * 20, row* 20, 20, 20);
       }
     }
   }
