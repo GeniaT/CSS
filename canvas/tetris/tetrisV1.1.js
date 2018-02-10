@@ -46,30 +46,30 @@ const forms = [
 ]
 const colors = ['#fc8df6','#998be5','#47aaed','#29d188','#e8d614','#ed6a3b','#8c9093'];
 let gameGrid = [ //the '2s' define the border of the grid in the initial state.
-  [2,2,0,0,0,0,0,0,0,0,0,0,2,2],
-  [2,2,0,0,0,0,0,0,0,0,0,0,2,2],
-  [2,2,0,0,0,0,0,0,0,0,0,0,2,2],
-  [2,2,0,0,0,0,0,0,0,0,0,0,2,2],
-  [2,2,0,0,0,0,0,0,0,0,0,0,2,2],
-  [2,2,0,0,0,0,0,0,0,0,0,0,2,2],
-  [2,2,0,0,0,0,0,0,0,0,0,0,2,2],
-  [2,2,0,0,0,0,0,0,0,0,0,0,2,2],
-  [2,2,0,0,0,0,0,0,0,0,0,0,2,2],
-  [2,2,0,0,0,0,0,0,0,0,0,0,2,2],
-  [2,2,0,0,0,0,0,0,0,0,0,0,2,2],
-  [2,2,0,0,0,0,0,0,0,0,0,0,2,2],
-  [2,2,0,0,0,0,0,0,0,0,0,0,2,2],
-  [2,2,0,0,0,0,0,0,0,0,0,0,2,2],
-  [2,2,0,0,0,0,0,0,0,0,0,0,2,2],
-  [2,2,0,0,0,0,0,0,0,0,0,0,2,2],
-  [2,2,0,0,0,0,0,0,0,0,0,0,2,2],
-  [2,2,0,0,0,0,0,0,0,0,0,0,2,2],
-  [2,2,0,0,0,0,0,0,0,0,0,0,2,2],
-  [2,2,0,0,0,0,0,0,0,0,0,0,2,2],
-  [2,2,0,0,0,0,0,0,0,0,0,0,2,2],
-  [2,2,0,0,0,0,0,0,0,0,0,0,2,2],
-  [2,2,2,2,2,2,2,2,2,2,2,2,2,2],
-  [2,2,2,2,2,2,2,2,2,2,2,2,2,2]]
+  [[2],[2],0,0,0,0,0,0,0,0,0,0,[2],[2]],
+  [[2],[2],0,0,0,0,0,0,0,0,0,0,[2],[2]],
+  [[2],[2],0,0,0,0,0,0,0,0,0,0,[2],[2]],
+  [[2],[2],0,0,0,0,0,0,0,0,0,0,[2],[2]],
+  [[2],[2],0,0,0,0,0,0,0,0,0,0,[2],[2]],
+  [[2],[2],0,0,0,0,0,0,0,0,0,0,[2],[2]],
+  [[2],[2],0,0,0,0,0,0,0,0,0,0,[2],[2]],
+  [[2],[2],0,0,0,0,0,0,0,0,0,0,[2],[2]],
+  [[2],[2],0,0,0,0,0,0,0,0,0,0,[2],[2]],
+  [[2],[2],0,0,0,0,0,0,0,0,0,0,[2],[2]],
+  [[2],[2],0,0,0,0,0,0,0,0,0,0,[2],[2]],
+  [[2],[2],0,0,0,0,0,0,0,0,0,0,[2],[2]],
+  [[2],[2],0,0,0,0,0,0,0,0,0,0,[2],[2]],
+  [[2],[2],0,0,0,0,0,0,0,0,0,0,[2],[2]],
+  [[2],[2],0,0,0,0,0,0,0,0,0,0,[2],[2]],
+  [[2],[2],0,0,0,0,0,0,0,0,0,0,[2],[2]],
+  [[2],[2],0,0,0,0,0,0,0,0,0,0,[2],[2]],
+  [[2],[2],0,0,0,0,0,0,0,0,0,0,[2],[2]],
+  [[2],[2],0,0,0,0,0,0,0,0,0,0,[2],[2]],
+  [[2],[2],0,0,0,0,0,0,0,0,0,0,[2],[2]],
+  [[2],[2],0,0,0,0,0,0,0,0,0,0,[2],[2]],
+  [[2],[2],0,0,0,0,0,0,0,0,0,0,[2],[2]],
+  [[2],[2],[2],[2],[2],[2],[2],[2],[2],[2],[2],[2],[2],[2]],
+  [[2],[2],[2],[2],[2],[2],[2],[2],[2],[2],[2],[2],[2],[2]]]
 
 canvas.width = 200;
 canvas.height = 440;
@@ -117,17 +117,19 @@ document.onkeydown = function(e) {
     }
 }
 
+let randomNr;
 function newFormCreation() {
-  let randomForm = Math.floor(Math.random() * forms.length);
-  // let randomForm = 0;
-  let randomFColor = Math.floor(Math.random() * forms.length);
-  currentForm = forms[randomForm];
-  currentColor = colors[randomFColor];
+  randomNr = Math.floor(Math.random() * forms.length);
+  // let randomForm = 4;
+
+  currentForm = forms[randomNr];
+  currentColor = colors[randomNr];
   currentX = 5;
   currentY = 0;
 }
 
 let interval;
+let speed = 1000;
 function formFalls() {
   interval = setInterval(function() {
     if (checkBottomCollision()) {
@@ -140,7 +142,7 @@ function formFalls() {
       clearInterval(interval);
       init();
     }
-  }, 1000);
+  }, speed);
 }
 
 function clearPreviousFormState() {
@@ -166,11 +168,11 @@ function rotate() {
 
   for (let row = 0; row <= 3; row++) { //check if this new rotation can fit the grid, if not return.
     for (let col = 0; col <= 3; col++) {
-      if (tempCurrentForm[row][col] === 1 && gameGrid[currentY + row][currentX + col] === 2) {
+      if (tempCurrentForm[row][col] === 1 && gameGrid[currentY + row][currentX + col][0] === 2) {
         // rotation not permitted
         return;
       } else if (row === 3 && col === 3) {
-        c// rotation is permitted
+        // rotation is permitted
         clearPreviousFormState();
         currentForm = rotatedForm;
         renderCurrentForm();
@@ -182,7 +184,7 @@ function rotate() {
 function checkLeftCollision() {
   for (let row = 0; row <= 3; row++) {
     for (let col = 0; col <= 3; col++) {
-      if (currentForm[row][col] === 1 && gameGrid[currentY + row][currentX - 1 + col] === 2) {
+      if (currentForm[row][col] === 1 && gameGrid[currentY + row][currentX - 1 + col][0] === 2) {
         return false;//go left not permitted
       }
     }
@@ -193,7 +195,7 @@ function checkLeftCollision() {
 function checkRightCollision() {
   for (let row = 0; row <= 3; row++) {
     for (let col = 0; col <= 3; col++) {
-      if (currentForm[row][col] === 1 && gameGrid[currentY + row][currentX + 1 + col] === 2) {
+      if (currentForm[row][col] === 1 && gameGrid[currentY + row][currentX + 1 + col][0] === 2) {
         return false;//go left not permitted
       }
     }
@@ -205,7 +207,7 @@ function checkBottomCollision() {
   //check if all the '1s' in current form state will meet '0s' in the gameGrid
   for (let row = 0; row <= 3; row++) {
     for (let col = 0; col <= 3; col++) {
-      if (currentForm[row][col] === 1 && gameGrid[currentY + 1 + row][currentX + col] === 2) {
+      if (currentForm[row][col] === 1 && gameGrid[currentY + 1 + row][currentX + col][0] === 2) {
         return false;
       }
     }
@@ -219,7 +221,7 @@ function checkFullLines() {
     if (gameGrid[i].indexOf(0) === -1) { //if full line
       fullLines = true
       gameGrid.splice(i, 1);
-      gameGrid.unshift([2,2,0,0,0,0,0,0,0,0,0,0,2,2]);
+      gameGrid.unshift([[2],[2],0,0,0,0,0,0,0,0,0,0,[2],[2]]);
     }
   }
   if (fullLines) {
@@ -231,8 +233,8 @@ function rerenderCanvas() {
   c.clearRect(0, 0, canvas.width, canvas.height);
   for (let row = 0; row < 22; row ++) {
     for (let col = 1; col < 12; col++) {
-      if (gameGrid[row][col] === 2) {
-        c.fillStyle = 'rgba(255,0,0,0.5)';
+      if (gameGrid[row][col][0] === 2) {
+        c.fillStyle = colors[gameGrid[row][col][1]];
         c.fillRect((col - 2) * 20, row* 20, 20, 20);
       }
     }
@@ -256,7 +258,7 @@ function fixFormToGrid() {
   for (let row = 0; row <= 3; row++) {
     for (let col = 0; col <= 3; col++) {
       if (currentForm[row][col] === 1) {
-        gameGrid[currentY + row][currentX + col] = 2;
+        gameGrid[currentY + row][currentX + col] = [2, randomNr];
         c.fillRect((currentX - 2 + col) * 20, (currentY + row) * 20, 20, 20);
       }
     }
@@ -266,8 +268,7 @@ function fixFormToGrid() {
 function init() {
   newFormCreation();
   renderCurrentForm();
-  // formFalls();
+  formFalls();
 }
 
 init()
-//next : add color info in gameGrid for rendering.
