@@ -70,7 +70,7 @@ let gameGrid = [ //the '2s' define the border of the grid in the initial state.
   [[2],[2],0,0,0,0,0,0,0,0,0,0,[2],[2]],
   [[2],[2],[2],[2],[2],[2],[2],[2],[2],[2],[2],[2],[2],[2]],
   [[2],[2],[2],[2],[2],[2],[2],[2],[2],[2],[2],[2],[2],[2]]]
-
+let score = 0;
 canvas.width = 200;
 canvas.height = 440;
 
@@ -107,6 +107,9 @@ document.onkeydown = function(e) {
             clearPreviousFormState();
             currentY += 1;
             renderCurrentForm();
+
+            score += 5;
+            console.log(score);
           } else {
             fixFormToGrid();
             checkFullLines();
@@ -126,16 +129,23 @@ function newFormCreation() {
   currentColor = colors[randomNr];
   currentX = 5;
   currentY = 0;
+
+  score += 5;
+  console.log(score);
 }
 
 let interval;
 let speed = 1000;
 function formFalls() {
+  console.log('speed', speed);
   interval = setInterval(function() {
     if (checkBottomCollision()) {
       clearPreviousFormState();
       currentY += 1;
       renderCurrentForm();
+
+      score += 1;
+      console.log(score);
     } else {
       fixFormToGrid();
       checkFullLines();
@@ -215,6 +225,7 @@ function checkBottomCollision() {
   return true;
 }
 
+let numberOfLines = 0;
 function checkFullLines() {
   let fullLines = false;
   for (let i = 0; i < 22; i++) {
@@ -222,6 +233,13 @@ function checkFullLines() {
       fullLines = true
       gameGrid.splice(i, 1);
       gameGrid.unshift([[2],[2],0,0,0,0,0,0,0,0,0,0,[2],[2]]);
+
+      numberOfLines++;
+      score = Number((score + 50/(1000/speed)).toFixed()); //each line bonus gets bigger as the speed increases.
+      console.log(score);
+      if (numberOfLines % 10 === 9) {
+        speed = 0.9 * speed;
+      }
     }
   }
   if (fullLines) {
