@@ -68,6 +68,7 @@ let gameGrid = [ //the '2s' define the border of the grid in the initial state.
   [2,2,0,0,0,0,0,0,0,0,0,0,2,2],
   [2,2,0,0,0,0,0,0,0,0,0,0,2,2],
   [2,2,0,0,0,0,0,0,0,0,0,0,2,2],
+  [2,2,2,2,2,2,2,2,2,2,2,2,2,2],
   [2,2,2,2,2,2,2,2,2,2,2,2,2,2]]
 
 canvas.width = 200;
@@ -90,7 +91,6 @@ document.onkeydown = function(e) {
           break;
       case 38:
           console.log('up');// need to check if rotation is permitted (if 1s in next state wont meet 2s on the grid)
-          clearPreviousFormState();
           rotate();
           break;
       case 39:
@@ -118,8 +118,8 @@ document.onkeydown = function(e) {
 }
 
 function newFormCreation() {
-  // let randomForm = Math.floor(Math.random() * forms.length);
-  let randomForm = 0;
+  let randomForm = Math.floor(Math.random() * forms.length);
+  // let randomForm = 0;
   let randomFColor = Math.floor(Math.random() * forms.length);
   currentForm = forms[randomForm];
   currentColor = colors[randomFColor];
@@ -136,7 +136,7 @@ function formFalls() {
       renderCurrentForm();
     } else {
       fixFormToGrid();
-      // checkFullLines();
+      checkFullLines();
       clearInterval(interval);
       init();
     }
@@ -162,8 +162,21 @@ function rotate() {
       rotatedForm[col][3-row] = currentForm[row][col];
     }
   }
-  currentForm = rotatedForm;
-  renderCurrentForm();
+  let tempCurrentForm = rotatedForm; //temporali saving the 4x4 grid of the rotated form
+
+  for (let row = 0; row <= 3; row++) { //check if this new rotation can fit the grid, if not return.
+    for (let col = 0; col <= 3; col++) {
+      if (tempCurrentForm[row][col] === 1 && gameGrid[currentY + row][currentX + col] === 2) {
+        // rotation not permitted
+        return;
+      } else if (row === 3 && col === 3) {
+        c// rotation is permitted
+        clearPreviousFormState();
+        currentForm = rotatedForm;
+        renderCurrentForm();
+      }
+    }
+  }
 }
 
 function checkLeftCollision() {
@@ -192,7 +205,7 @@ function checkBottomCollision() {
   //check if all the '1s' in current form state will meet '0s' in the gameGrid
   for (let row = 0; row <= 3; row++) {
     for (let col = 0; col <= 3; col++) {
-      if (currentForm[row][col] === 1 && gameGrid[currentY+1 + row][currentX + col] === 2) {
+      if (currentForm[row][col] === 1 && gameGrid[currentY + 1 + row][currentX + col] === 2) {
         return false;
       }
     }
@@ -210,7 +223,6 @@ function checkFullLines() {
     }
   }
   if (fullLines) {
-    console.log("fullLines!");
     rerenderCanvas();
   }
 }
@@ -258,3 +270,4 @@ function init() {
 }
 
 init()
+//next : add color info in gameGrid for rendering.
