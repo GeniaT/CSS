@@ -1,12 +1,14 @@
-body {
-  background-color: #a0efcd;
+html, body {
+  background-image: url('tetrisReal.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 h1 {
   text-align: center;
 }
 
 canvas {
-  background-color: #f4eded;
+  background-color: #eddc9e;
   border: 5px solid #c9c5c5;
   border-radius: 10px;
   position: absolute;

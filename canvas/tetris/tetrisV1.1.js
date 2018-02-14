@@ -44,7 +44,7 @@ const forms = [
     [0,0,0,0],
   ]
 ]
-const colors = ['#fc8df6','#998be5','#47aaed','#29d188','#e8d614','#ed6a3b','#8c9093'];
+const colors = ['#e8b2b2','#e2bef7','#8dcbef','#97d8c1','#45706f','#fcc36f','#8c9093'];
 let gameGrid = [ //the '2s' define the border of the grid in the initial state.
   [[2],[2],0,0,0,0,0,0,0,0,0,0,[2],[2]],
   [[2],[2],0,0,0,0,0,0,0,0,0,0,[2],[2]],
