@@ -1,7 +1,7 @@
 # CSS
 CSS experiments
 
-To visualise the result from those folders, visit those links: </br>
+To visualise the result from those folders, visit the following links: </br>
 
 :fire: Bootstrap 4 layout : https://codepen.io/Genia/pen/rpYxEd </br>
 
@@ -12,3 +12,5 @@ To visualise the result from those folders, visit those links: </br>
 :earth_americas: Bouncing circle with Events under mouse in canvas: https://codepen.io/Genia/pen/rpJgbd </br>
 
 :cyclone: Balls bouncing in a canvas with gravity applied: https://codepen.io/Genia/pen/XVEyJE </br>
+
+:art: Tetris made in a canvas: https://codepen.io/Genia/pen/PQeGqx </br>
