@@ -6,9 +6,17 @@
   <link rel="stylesheet" href="index.css">
 </head>
 <body>
-  <h1>Tet... time !</h1>
-	<!-- <p>Score: <div id="score"></div></p> -->
-	<canvas id="fallingForm"></canvas>
+  <h1><span style="color:#e85a5a;">T</span><span style="color:#f2b32b;">E</span><span style="color:#f9f95e;">T</span><span style="color:#67e54b;">R</span><span style="color:#40c7ed;">I</span><span style="color:#f449f4;">S</span> time !</h1>
+	<div id="tetrisGame">
+		<canvas id="fallingForm"></canvas>
+		<div class="stats">
+			<div class="score">Score: <span id="score">0</span></div></br>
+			<div class="level">Level: <span id="level">1</span></div>
+			<div class="fullLines">Lines: <span id="fullLines">0</span></div>
+		</div>
+		<div id="gameover">GAMEOVER</div>
+	</div>
+
 	<!-- <canvas id="droppedForms"></canvas> -->
 	<script src="tetrisV1.1.js"></script>
 </body>

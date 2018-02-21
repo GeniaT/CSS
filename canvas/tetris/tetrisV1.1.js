@@ -71,6 +71,8 @@ let gameGrid = [ //the '2s' define the border of the grid in the initial state.
   [[2],[2],[2],[2],[2],[2],[2],[2],[2],[2],[2],[2],[2],[2]],
   [[2],[2],[2],[2],[2],[2],[2],[2],[2],[2],[2],[2],[2],[2]]]
 let score = 0;
+let level = 1;
+let gameOver = "NO";
 canvas.width = 200;
 canvas.height = 440;
 
@@ -83,7 +85,7 @@ document.onkeydown = function(e) {
   switch (e.keyCode) {
       case 37:
           console.log('left');
-          if (checkLeftCollision()) {
+          if (checkLeftCollision() && gameOver === "NO") {
             clearPreviousFormState();
             currentX -= 1;
             renderCurrentForm();
@@ -91,11 +93,13 @@ document.onkeydown = function(e) {
           break;
       case 38:
           console.log('up');// need to check if rotation is permitted (if 1s in next state wont meet 2s on the grid)
-          rotate();
+          if (gameOver === "NO") {
+            rotate();
+          }
           break;
       case 39:
           console.log('right');
-          if (checkRightCollision()) {
+          if (checkRightCollision() && gameOver === "NO") {
             clearPreviousFormState();
             currentX += 1;
             renderCurrentForm();
@@ -103,14 +107,11 @@ document.onkeydown = function(e) {
           break;
       case 40:
           console.log('down');
-          if (checkBottomCollision()) {
+          if (checkBottomCollision() && gameOver === "NO") {
             clearPreviousFormState();
             currentY += 1;
             renderCurrentForm();
-
-            score += 5;
-            console.log(score);
-          } else {
+          } else if (gameOver === "NO"){
             fixFormToGrid();
             checkFullLines();
             clearInterval(interval);
@@ -123,7 +124,6 @@ document.onkeydown = function(e) {
 let randomNr;
 function newFormCreation() {
   randomNr = Math.floor(Math.random() * forms.length);
-  // let randomForm = 4;
 
   currentForm = forms[randomNr];
   currentColor = colors[randomNr];
@@ -131,26 +131,33 @@ function newFormCreation() {
   currentY = 0;
 
   score += 5;
-  console.log(score);
+  document.getElementById("score").innerHTML = score;
+
+  // check if GameOver
+  for (let i = 2; i < 10; i++) {
+    if (gameGrid[0][i][0] === 2) {
+      gameOver = "YES";
+      document.getElementById("gameover").style.display = "block";
+    }
+  }
 }
 
 let interval;
 let speed = 1000;
 function formFalls() {
-  console.log('speed', speed);
+  // console.log('speed', speed);
   interval = setInterval(function() {
     if (checkBottomCollision()) {
       clearPreviousFormState();
       currentY += 1;
       renderCurrentForm();
-
-      score += 1;
-      console.log(score);
     } else {
       fixFormToGrid();
       checkFullLines();
       clearInterval(interval);
-      init();
+      if (gameOver === "NO") {
+        init();
+      }
     }
   }, speed);
 }
@@ -235,10 +242,14 @@ function checkFullLines() {
       gameGrid.unshift([[2],[2],0,0,0,0,0,0,0,0,0,0,[2],[2]]);
 
       numberOfLines++;
+      document.getElementById("fullLines").innerHTML = numberOfLines;
       score = Number((score + 50/(1000/speed)).toFixed()); //each line bonus gets bigger as the speed increases.
-      console.log(score);
+      document.getElementById("score").innerHTML = score;
+      // console.log(score);
       if (numberOfLines % 10 === 9) {
         speed = 0.9 * speed;
+        level++;
+        document.getElementById("level").innerHTML = level;
       }
     }
   }
