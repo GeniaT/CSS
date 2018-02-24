@@ -45,7 +45,7 @@ function checkFullLines() {
 
       numberOfLines++;
       document.getElementById("fullLines").innerHTML = numberOfLines;
-      score = Number((score + 50/(1000/speed)).toFixed()); //each line bonus gets bigger as the speed increases.
+      score = Number((score + (50 / (speed / 1000))).toFixed()); //each line bonus gets bigger as the speed increases.
       document.getElementById("score").innerHTML = score;
       // console.log(score);
       if (numberOfLines % 10 === 9) {
